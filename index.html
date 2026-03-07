@@ -1,154 +1,402 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matovu James - Portfolio</title>
+    <title>James Matovu | Statistician, Epidemiologist & Biostatistician</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            scroll-behavior: smooth;
+            background-color: #ffffff;
+            color: #0f172a;
         }
-        .section-divider {
+
+        .section-fade {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+
+        .section-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .nav-blur {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .accent-gradient {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+        }
+
+        .roadmap-line {
+            background: linear-gradient(to bottom, #e2e8f0 0%, #3b82f6 50%, #e2e8f0 100%);
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f8fafc; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        
+        b, strong { font-weight: 700; color: #0f172a; }
+
+        .footer-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
             height: 1px;
-            background-color: #e5e7eb;
-            margin: 2.5rem 0;
+            bottom: -4px;
+            left: 0;
+            background-color: #2563eb;
+            transition: width 0.3s ease;
+        }
+
+        .footer-link:hover::after {
+            width: 100%;
+        }
+
+        .back-to-top {
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Profile Image Styling */
+        .profile-img-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .profile-img-container::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border: 2px solid #e2e8f0;
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .hero-portrait {
+            width: 160px;
+            height: 160px;
+            object-position: center 15%; /* Adjusts focus to the face for student IDs */
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="antialiased">
 
-    <!-- Main Container -->
-    <div class="container mx-auto p-4 sm:p-6 lg:p-10 max-w-4xl">
-        <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 lg:p-12">
-
-            <!-- Header Section -->
-            <header class="text-center mb-10">
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 tracking-tight">Matovu James</h1>
-                <p class="text-lg sm:text-xl text-gray-600 mt-2">Statistics Professional</p>
-                <div class="mt-6 flex justify-center space-x-6">
-                    <a href="mailto:matovujames193@gmail.com" class="text-gray-500 hover:text-blue-600 transition-colors duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-18 8h18a2 2 0 002-2V6a2 2 0 00-2-2H3a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                        <span class="sr-only">Email</span>
-                    </a>
-                    <a href="tel:+256787027919" class="text-gray-500 hover:text-blue-600 transition-colors duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.26 1.482a12.87 12.87 0 007.696 7.696l1.482-2.26a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.948V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                        </svg>
-                        <span class="sr-only">Phone</span>
-                    </a>
-                    <a href="https://www.linkedin.com/in/matovu-james-224874235" target="_blank" class="text-gray-500 hover:text-blue-600 transition-colors duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.768s.784-1.768 1.75-1.768 1.75.79 1.75 1.768-.784 1.768-1.75 1.768zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                        </svg>
-                        <span class="sr-only">LinkedIn</span>
-                    </a>
-                </div>
-            </header>
-
-            <div class="section-divider"></div>
-
-            <!-- Professional Summary -->
-            <section class="mb-10">
-                <h2 class="text-2xl font-bold text-gray-900 mb-4">Professional Summary</h2>
-                <p class="text-gray-700 leading-relaxed">
-                    A proactive, mature, and results-driven individual with a strong foundation in quantitative analysis and data-driven project execution. Possesses a proven track record of hard work and dedication, and is adept at translating complex data into actionable insights. Eager to leverage a robust skill set in Python, R, and statistical software (SPSS, STATA) to contribute to impactful projects and manage demanding job requirements.
-                </p>
-            </section>
-
-            <div class="section-divider"></div>
-
-            <!-- Technical Skills -->
-            <section class="mb-10">
-                <h2 class="text-2xl font-bold text-gray-900 mb-4">Technical Skills</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700">
-                    <ul class="list-disc list-inside space-y-2">
-                        <li><strong>Programming Languages:</strong> Python, R</li>
-                        <li><strong>Statistical Software:</strong> STATA, SPSS, DHIS2</li>
-                    </ul>
-                    <ul class="list-disc list-inside space-y-2">
-                        <li><strong>Data Management & Analysis:</strong> Data Cleaning & Preparation, Data Visualization, Advanced Excel, HTML Tables, ODK (Open Data Kit)</li>
-                        <li><strong>Statistical Methods:</strong> Regression Analysis, Time Series Analysis, Survey Design, Data Interpretation, Outlier Detection</li>
-                    </ul>
-                </div>
-            </section>
+    <!-- Header -->
+    <header class="fixed w-full top-0 z-50 nav-blur border-b border-slate-100">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#" class="font-bold text-xl tracking-tight flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
+                MATOVU.J
+            </a>
             
-            <div class="section-divider"></div>
+            <nav class="hidden md:flex items-center space-x-10 text-[12px] font-bold text-slate-500 uppercase tracking-widest">
+                <a href="#home" class="hover:text-blue-600 transition">Profile</a>
+                <a href="#expertise" class="hover:text-blue-600 transition">Methodology</a>
+                <a href="#impact" class="hover:text-blue-600 transition">Public Health</a>
+                <a href="#vision" class="hover:text-blue-600 transition text-blue-600">Trajectory</a>
+            </nav>
 
-            <!-- Key Achievements -->
-            <section class="mb-10">
-                <h2 class="text-2xl font-bold text-gray-900 mb-4">Key Achievements</h2>
-                <ul class="list-disc list-inside space-y-4 text-gray-700 leading-relaxed">
-                    <li>
-                        <strong>Data Analytics & Visualization:</strong> Developed and deployed 146 "Normal Channel Graphs" using R to track malaria trends across all Ugandan districts, directly contributing to the Ministry of Health's early warning systems.
-                    </li>
-                    <li>
-                        <strong>Data Integrity & Management:</strong> Designed and implemented ODK questionnaires with precise syntax and validation rules and developed intuitive HTML tables for DHIS2, leading to a significant improvement in data quality at the source.
-                    </li>
-                    <li>
-                        <strong>Leadership & Dedication:</strong> Served as a student leader for three years, demonstrating a strong sense of duty, responsibility, and commitment to both academic and extracurricular pursuits.
-                    </li>
-                    <li>
-                        <strong>Research:</strong> Conducted a comprehensive econometric analysis to model key factors influencing Uganda's economic growth, showcasing advanced research and analytical abilities.
-                    </li>
-                </ul>
-            </section>
-
-            <div class="section-divider"></div>
-
-            <!-- Professional Experience -->
-            <section class="mb-10">
-                <h2 class="text-2xl font-bold text-gray-900 mb-4">Professional Experience</h2>
-                <div class="space-y-4">
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-900">Industrial Training Intern</h3>
-                        <p class="text-gray-600">Ministry of Health, Health Information Management Division | Kampala, Uganda | June - July 2025</p>
-                        <ul class="list-disc list-inside mt-2 space-y-2 text-gray-700 leading-relaxed">
-                            <li>
-                                <strong>Managed</strong> the full data lifecycle within DHIS2, from collection and validation to analysis and visualization, directly supporting the monitoring of national health care systems.
-                            </li>
-                            <li>
-                                <strong>Designed</strong> ODK questionnaires and HTML tables for streamlined DHIS2 data entry, improving data accuracy and efficiency.
-                            </li>
-                            <li>
-                                <strong>Executed</strong> rigorous outlier detection and data cleaning protocols on sensitive health data using R, ensuring high reliability for statistical reports.
-                            </li>
-                            <li>
-                                <strong>Authored</strong> statistical reports that provided key insights, which were instrumental in informing strategic planning processes for the division.
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <div class="section-divider"></div>
-
-            <!-- Education -->
-            <section>
-                <h2 class="text-2xl font-bold text-gray-900 mb-4">Education</h2>
-                <div class="space-y-4">
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-900">Bachelor of Science in Statistics (Expected 2025)</h3>
-                        <p class="text-gray-700">Kyambogo University, Kampala</p>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-900">Uganda Advanced Certificate of Education (2017)</h3>
-                        <p class="text-gray-700">Masaka Secondary School, Masaka</p>
-                        <p class="text-sm text-gray-500 mt-1">Key Subjects: Mathematics (A), Economics (C), Geography (B)</p>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-900">Uganda Certificate of Education (2015)</h3>
-                        <p class="text-gray-700">Insula Christian High School, Kakuuto</p>
-                        <p class="text-sm text-gray-500 mt-1">Division II</p>
-                    </div>
-                </div>
-            </section>
+            <a href="mailto:matovujames193@gmail.com?subject=CV Request: James Matovu&body=Hello James, I viewed your portfolio and would like to request a copy of your CV regarding potential opportunities." 
+               class="hidden sm:block text-[11px] font-black px-6 py-2.5 rounded-full border border-slate-200 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all tracking-wider">
+                REQUEST CV
+            </a>
         </div>
-    </div>
+    </header>
+
+    <!-- Hero -->
+    <section id="home" class="pt-52 pb-32 px-6 max-w-5xl mx-auto text-center">
+        <!-- Official Profile Picture -->
+        <div class="mb-12 profile-img-container">
+            <img 
+                src="https://myportal.kyu.ac.ug/photos/student-photos/2200802932.jpeg" 
+                alt="James Matovu" 
+                class="hero-portrait rounded-full object-cover grayscale hover:grayscale-0 transition-all duration-700 border-4 border-white shadow-2xl mx-auto"
+                onerror="this.src='https://ui-avatars.com/api/?name=James+Matovu&background=2563eb&color=fff&size=200'"
+            >
+        </div>
+
+        <div class="inline-block mb-10 px-5 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-[11px] font-black text-blue-600 tracking-[0.15em] uppercase">
+            Statistician • Epidemiologist • Biostatistician
+        </div>
+        <h1 class="text-6xl lg:text-8xl font-black tracking-tighter text-slate-900 mb-10 leading-[0.95]">
+            Bridging Numbers and <br>
+            <span class="text-blue-600">Population Health</span>
+        </h1>
+        <p class="text-xl lg:text-2xl text-slate-500 max-w-3xl mx-auto leading-relaxed mb-16 font-medium">
+            I am a <b>Statistician</b> specialising in <b>Biostatistical quality assurance</b>. My expertise lies in applying <b>Sampling Theory</b> and <b>Design of Experiments</b> to ensure that national health surveillance data meets the highest standards of <b>Epidemiological integrity</b>.
+        </p>
+        
+        <div class="flex flex-wrap justify-center gap-16 border-y border-slate-100 py-12">
+            <div class="text-center">
+                <p class="text-4xl font-black text-slate-900">4.24</p>
+                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-2">CGPA (Statistics)</p>
+            </div>
+            <div class="text-center">
+                <p class="text-4xl font-black text-slate-900">Africa CDC</p>
+                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-2">Field Response</p>
+            </div>
+            <div class="text-center">
+                <p class="text-4xl font-black text-slate-900">MoH</p>
+                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-2">Technical Liaison</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Methodology -->
+    <section id="expertise" class="py-32 px-6 max-w-6xl mx-auto">
+        <div class="grid lg:grid-cols-3 gap-20">
+            <div class="lg:col-span-1">
+                <h2 class="text-xs font-black text-blue-600 uppercase tracking-[0.3em] mb-4">Methodological Rigour</h2>
+                <h3 class="text-4xl font-black text-slate-900 leading-tight">Biostatistical precision for public health.</h3>
+                <p class="text-slate-500 mt-8 text-lg leading-relaxed font-medium">
+                    As a <b>Biostatistician</b> in training, I ensure that the clinical and social data used in policy is <b>representative</b> and <b>scientifically sound</b>.
+                </p>
+            </div>
+
+            <div class="lg:col-span-2 grid md:grid-cols-2 gap-10">
+                <!-- Biostatistics -->
+                <div class="p-10 rounded-3xl border border-slate-100 hover:border-blue-200 transition-all group">
+                    <div class="w-14 h-14 rounded-2xl bg-slate-900 text-white flex items-center justify-center mb-8">
+                        <i class="fas fa-chart-area text-xl"></i>
+                    </div>
+                    <h4 class="font-extrabold text-2xl mb-5 tracking-tight">Biostatistics</h4>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6 italic">Validation & Theoretical Frameworks.</p>
+                    <ul class="text-[14px] text-slate-600 space-y-4 font-medium">
+                        <li class="flex items-start">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 mr-4 shrink-0"></span>
+                            <span>Expertise in <b>Sampling Theory</b> to ensure regional health surveys are statistically representative.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 mr-4 shrink-0"></span>
+                            <span>Development of <b>automated R-scripts</b> for real-time validation of infectious disease records.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Epidemiology -->
+                <div class="p-10 rounded-3xl border border-slate-100 hover:border-blue-200 transition-all group">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center mb-8">
+                        <i class="fas fa-biohazard text-xl"></i>
+                    </div>
+                    <h4 class="font-extrabold text-2xl mb-5 tracking-tight">Epidemiology</h4>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6 italic">Surveillance & Outbreak Response.</p>
+                    <ul class="text-[14px] text-slate-600 space-y-4 font-medium">
+                        <li class="flex items-start">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 mr-4 shrink-0"></span>
+                            <span>Supported <b>Africa CDC</b> in behavioural research identifying transmission drivers for <b>Mpox</b>.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 mr-4 shrink-0"></span>
+                            <span>Implementation of <b>complex logic checks</b> in digital field instruments to eliminate entry bias.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Informatics -->
+                <div class="p-10 rounded-3xl border border-slate-100 hover:border-blue-200 transition-all group">
+                    <div class="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center mb-8">
+                        <i class="fas fa-microscope text-xl"></i>
+                    </div>
+                    <h4 class="font-extrabold text-2xl mb-5 tracking-tight">Health Informatics</h4>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6 italic">Infrastructure for Health Intelligence.</p>
+                    <ul class="text-[14px] text-slate-600 space-y-4 font-medium">
+                        <li class="flex items-start">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 mr-4 shrink-0"></span>
+                            <span>Optimising <b>DHIS2 and REDCap</b> pipelines for the Ministry of Health's Information Systems.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 mr-4 shrink-0"></span>
+                            <span>Auditing <b>3,500+ records</b> to align national registries with <b>WHO standards</b>.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Research -->
+                <div class="p-10 rounded-3xl border border-slate-100 hover:border-blue-200 transition-all group">
+                    <div class="w-14 h-14 rounded-2xl bg-slate-100 text-slate-900 flex items-center justify-center mb-8">
+                        <i class="fas fa-file-medical text-xl"></i>
+                    </div>
+                    <h4 class="font-extrabold text-2xl mb-5 tracking-tight">Clinical Research</h4>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6 italic">Quantitative Evidence Synthesis.</p>
+                    <ul class="text-[14px] text-slate-600 space-y-4 font-medium">
+                        <li class="flex items-start">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 mr-4 shrink-0"></span>
+                            <span>Application of <b>Design of Experiments (DoE)</b> principles to clinical research frameworks.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 mr-4 shrink-0"></span>
+                            <span>Statistical support for <b>socio-ecological assessments</b> in public health emergency zones.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scientific Focus -->
+    <section id="impact" class="py-32 bg-slate-50">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="mb-20">
+                <h2 class="text-xs font-black text-blue-600 uppercase tracking-[0.3em] mb-4">The Science of Service</h2>
+                <h3 class="text-5xl font-black text-slate-900">Validated Population Health</h3>
+            </div>
+            
+            <div class="bg-white rounded-[3rem] p-10 lg:p-20 border border-slate-200 shadow-sm flex flex-col lg:flex-row gap-20 items-center">
+                <div class="lg:w-1/2">
+                    <p class="text-xl text-slate-600 leading-relaxed mb-10 font-medium">
+                        A <b>Statistician's</b> greatest impact is in the <b>truth</b> of their data. At the <b>National Health Observatory</b>, I protect the accuracy of the metrics that define our nation's response to disease.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-3xl font-black text-blue-600 mb-2">99%</p>
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Reporting Compliance</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-black text-blue-600 mb-2">Weekly</p>
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Surveillance Audits</p>
+                        </div>
+                    </div>
+                    <div class="mt-12 pt-10 border-t border-slate-100 flex items-center gap-6">
+                        <!-- Small Portrait with official image -->
+                        <img src="https://myportal.kyu.ac.ug/photos/student-photos/2200802932.jpeg" class="w-12 h-12 rounded-full object-cover grayscale opacity-70" alt="J.M.">
+                        <p class="text-sm font-bold text-slate-500 leading-relaxed italic">
+                            "Wherever I step, I leave purpose behind. My purpose is ensuring every health indicator—be it <b>HIV, Malaria, or Mpox</b>—is a true reflection of the population's wellbeing."
+                        </p>
+                    </div>
+                </div>
+                <div class="lg:w-1/2 w-full flex flex-col gap-6">
+                    <div class="p-10 bg-slate-900 rounded-[2rem] text-white">
+                        <p class="text-xs font-bold text-blue-400 uppercase tracking-widest mb-4">Scientific Ethos</p>
+                        <p class="text-2xl font-bold leading-tight tracking-tight italic">
+                            "Bridging the field reality with clinical evidence through biostatistical rigor."
+                        </p>
+                    </div>
+                    <div class="p-10 bg-blue-600 rounded-[2rem] text-white">
+                        <p class="text-xs font-bold text-blue-200 uppercase tracking-widest mb-4">Current Focus</p>
+                        <p class="text-2xl font-bold">Health Information Systems (HIS) Specialist</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vision Roadmap -->
+    <section id="vision" class="py-32 max-w-4xl mx-auto px-6">
+        <div class="text-center mb-24">
+            <h2 class="text-xs font-black text-blue-600 uppercase tracking-[0.3em] mb-4">Academic Trajectory</h2>
+            <h3 class="text-5xl font-black text-slate-900">Becoming a Leader in Biostatistics</h3>
+        </div>
+
+        <div class="relative">
+            <div class="absolute left-0 top-0 h-full w-px roadmap-line ml-4 lg:ml-0"></div>
+            
+            <div class="space-y-24">
+                <div class="relative pl-12 lg:pl-20">
+                    <div class="absolute left-0 top-1 w-8 h-8 rounded-full bg-white border-4 border-blue-600 -ml-[15.5px] lg:ml-[-16px] z-10"></div>
+                    <div>
+                        <span class="text-blue-600 font-black text-xs uppercase tracking-widest">2026 — 2028</span>
+                        <h4 class="text-2xl font-black text-slate-900 mt-2">MSc Clinical Epidemiology & Biostatistics</h4>
+                        <p class="text-slate-500 mt-4 text-lg leading-relaxed max-w-xl font-medium">
+                            Enrolling at <b>Makerere University</b> to specialise in <b>stochastic modelling</b> and <b>survival analysis</b> of emerging infectious diseases.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="relative pl-12 lg:pl-20">
+                    <div class="absolute left-0 top-1 w-8 h-8 rounded-full bg-white border-4 border-slate-900 -ml-[15.5px] lg:ml-[-16px] z-10"></div>
+                    <div>
+                        <span class="text-slate-900 font-black text-xs uppercase tracking-widest">2029 — 2032</span>
+                        <h4 class="text-2xl font-black text-slate-900 mt-2">PhD in Biostatistics</h4>
+                        <p class="text-slate-500 mt-4 text-lg leading-relaxed max-w-xl font-medium">
+                            Developing <b>predictive Bayesian frameworks</b> for outbreak detection in resource-limited settings. Consulting for <b>Africa CDC</b> on continental data standards.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="relative pl-12 lg:pl-20">
+                    <div class="absolute left-0 top-1 w-8 h-8 rounded-full accent-gradient border-4 border-white shadow-xl -ml-[15.5px] lg:ml-[-16px] z-10"></div>
+                    <div>
+                        <span class="text-blue-600 font-black text-xs uppercase tracking-widest">2033 & Beyond</span>
+                        <h4 class="text-2xl font-black text-slate-900 mt-2">Principal Epidemiologist (WHO/UN)</h4>
+                        <p class="text-slate-500 mt-4 text-lg leading-relaxed max-w-xl font-medium">
+                            Leading global <b>biostatistical consortia</b> to standardise health metrics across the Global South, ensuring data drives <b>health equity</b>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Footer -->
+    <footer class="bg-white border-t border-slate-100">
+        <div class="max-w-6xl mx-auto px-6 py-20">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-12 mb-20">
+                <div class="max-w-md">
+                    <h4 class="text-4xl font-black text-slate-900 mb-6 tracking-tighter">MATOVU JAMES</h4>
+                    <p class="text-slate-500 font-medium leading-relaxed">
+                        <b>Statistician & Biostatistician</b> dedicated to the scientific integrity of public health surveillance.
+                    </p>
+                </div>
+                
+                <div class="flex flex-wrap gap-x-12 gap-y-6">
+                    <div class="flex flex-col gap-3">
+                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Professional Hub</span>
+                        <a href="mailto:matovujames193@gmail.com" class="footer-link text-sm font-bold text-slate-900">matovujames193@gmail.com</a>
+                        <a href="tel:+256787027919" class="footer-link text-sm font-bold text-slate-900">+256 787 027 919</a>
+                    </div>
+                    <div class="flex flex-col gap-3">
+                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Connection</span>
+                        <a href="https://linkedin.com/in/statgate-uganda-224874235" target="_blank" class="footer-link text-sm font-bold text-slate-900">LinkedIn Profile</a>
+                        <span class="text-sm font-bold text-slate-300">StatGate Uganda</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-between items-center pt-10 border-t border-slate-50 gap-8">
+                <p class="text-[10px] text-slate-400 font-black uppercase tracking-[0.4em]">
+                    &copy; 2026 | Statistician & Epidemiologist | Kampala, Uganda
+                </p>
+                
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="back-to-top group flex items-center gap-3">
+                    <span class="text-[10px] font-black text-slate-900 uppercase tracking-widest">Back to top</span>
+                    <div class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center group-hover:bg-slate-900 group-hover:text-white transition-all">
+                        <i class="fas fa-arrow-up text-xs"></i>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('section-fade');
+            observer.observe(section);
+        });
+    </script>
 </body>
 </html>
