@@ -1,402 +1,512 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>James Matovu | Statistician, Epidemiologist & Biostatistician</title>
+    <title>StatGate | Universal Data Governance Protocol</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        
-        body { 
-            font-family: 'Inter', sans-serif; 
-            scroll-behavior: smooth;
-            background-color: #ffffff;
-            color: #0f172a;
+        :root {
+            --accent: #3b82f6;
+            --bg-dark: #020617;
+            --emerald: #10b981;
+            --amber: #f59e0b;
+            --rose: #f43f5e;
+            --cyan: #06b6d4;
         }
-
-        .section-fade {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.8s ease-out;
+        body {
+            background-color: var(--bg-dark);
+            color: #cbd5e1;
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
         }
-
-        .section-fade.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .glass {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        .nav-blur {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+        .scanline {
+            width: 100%; height: 100%;
+            background: linear-gradient(to bottom, transparent 0%, rgba(59, 130, 246, 0.05) 50%, transparent 100%);
+            background-size: 100% 8px;
+            position: fixed; top: 0; left: 0;
+            pointer-events: none; z-index: 100;
         }
-
-        .accent-gradient {
-            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+        .grid-bg {
+            background-image: linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
         }
-
-        .roadmap-line {
-            background: linear-gradient(to bottom, #e2e8f0 0%, #3b82f6 50%, #e2e8f0 100%);
+        .sector-btn.active {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 0 20px -2px var(--accent);
         }
-
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #f8fafc; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        
-        b, strong { font-weight: 700; color: #0f172a; }
-
-        .footer-link {
-            position: relative;
-            transition: color 0.3s ease;
+        .map-glow {
+            filter: drop-shadow(0 0 8px var(--accent));
         }
-
-        .footer-link::after {
-            content: '';
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.9; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+        .ring-anim { animation: pulse-ring 2.5s infinite; transition: all 0.5s ease; }
+        .data-card { 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .data-card:hover { 
+            transform: translateY(-8px); 
+            border-color: var(--accent);
+            background: rgba(15, 23, 42, 0.95);
+        }
+        .weather-marker {
             position: absolute;
-            width: 0;
-            height: 1px;
-            bottom: -4px;
-            left: 0;
-            background-color: #2563eb;
-            transition: width 0.3s ease;
+            transform: translate(-50%, -50%);
+            z-index: 50;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: drop-shadow(0 0 10px rgba(0,0,0,0.8));
         }
-
-        .footer-link:hover::after {
-            width: 100%;
+        .btn-action {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s;
         }
-
-        .back-to-top {
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .btn-action:hover {
+            background: var(--accent);
+            color: white;
+            border-color: transparent;
         }
-        
-        .back-to-top:hover {
-            transform: translateY(-5px);
-        }
-
-        /* Profile Image Styling */
-        .profile-img-container {
-            position: relative;
-            display: inline-block;
-        }
-        
-        .profile-img-container::before {
-            content: '';
-            position: absolute;
-            inset: -8px;
-            border: 2px solid #e2e8f0;
-            border-radius: 50%;
-            z-index: -1;
-        }
-
-        .hero-portrait {
-            width: 160px;
-            height: 160px;
-            object-position: center 15%; /* Adjusts focus to the face for student IDs */
-        }
+        #exportLoading { display: none; }
     </style>
 </head>
-<body class="antialiased">
+<body class="selection:bg-blue-500/30">
 
-    <!-- Header -->
-    <header class="fixed w-full top-0 z-50 nav-blur border-b border-slate-100">
-        <div class="max-w-6xl mx-auto px-6 h-20 flex justify-between items-center">
-            <a href="#" class="font-bold text-xl tracking-tight flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
-                MATOVU.J
-            </a>
-            
-            <nav class="hidden md:flex items-center space-x-10 text-[12px] font-bold text-slate-500 uppercase tracking-widest">
-                <a href="#home" class="hover:text-blue-600 transition">Profile</a>
-                <a href="#expertise" class="hover:text-blue-600 transition">Methodology</a>
-                <a href="#impact" class="hover:text-blue-600 transition">Public Health</a>
-                <a href="#vision" class="hover:text-blue-600 transition text-blue-600">Trajectory</a>
-            </nav>
+    <div class="scanline"></div>
+    <div class="fixed inset-0 grid-bg pointer-events-none"></div>
 
-            <a href="mailto:matovujames193@gmail.com?subject=CV Request: James Matovu&body=Hello James, I viewed your portfolio and would like to request a copy of your CV regarding potential opportunities." 
-               class="hidden sm:block text-[11px] font-black px-6 py-2.5 rounded-full border border-slate-200 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all tracking-wider">
-                REQUEST CV
-            </a>
-        </div>
-    </header>
-
-    <!-- Hero -->
-    <section id="home" class="pt-52 pb-32 px-6 max-w-5xl mx-auto text-center">
-        <!-- Official Profile Picture -->
-        <div class="mb-12 profile-img-container">
-            <img 
-                src="https://myportal.kyu.ac.ug/photos/student-photos/2200802932.jpeg" 
-                alt="James Matovu" 
-                class="hero-portrait rounded-full object-cover grayscale hover:grayscale-0 transition-all duration-700 border-4 border-white shadow-2xl mx-auto"
-                onerror="this.src='https://ui-avatars.com/api/?name=James+Matovu&background=2563eb&color=fff&size=200'"
-            >
-        </div>
-
-        <div class="inline-block mb-10 px-5 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-[11px] font-black text-blue-600 tracking-[0.15em] uppercase">
-            Statistician • Epidemiologist • Biostatistician
-        </div>
-        <h1 class="text-6xl lg:text-8xl font-black tracking-tighter text-slate-900 mb-10 leading-[0.95]">
-            Bridging Numbers and <br>
-            <span class="text-blue-600">Population Health</span>
-        </h1>
-        <p class="text-xl lg:text-2xl text-slate-500 max-w-3xl mx-auto leading-relaxed mb-16 font-medium">
-            I am a <b>Statistician</b> specialising in <b>Biostatistical quality assurance</b>. My expertise lies in applying <b>Sampling Theory</b> and <b>Design of Experiments</b> to ensure that national health surveillance data meets the highest standards of <b>Epidemiological integrity</b>.
-        </p>
-        
-        <div class="flex flex-wrap justify-center gap-16 border-y border-slate-100 py-12">
-            <div class="text-center">
-                <p class="text-4xl font-black text-slate-900">4.24</p>
-                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-2">CGPA (Statistics)</p>
-            </div>
-            <div class="text-center">
-                <p class="text-4xl font-black text-slate-900">Africa CDC</p>
-                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-2">Field Response</p>
-            </div>
-            <div class="text-center">
-                <p class="text-4xl font-black text-slate-900">MoH</p>
-                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-2">Technical Liaison</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Methodology -->
-    <section id="expertise" class="py-32 px-6 max-w-6xl mx-auto">
-        <div class="grid lg:grid-cols-3 gap-20">
-            <div class="lg:col-span-1">
-                <h2 class="text-xs font-black text-blue-600 uppercase tracking-[0.3em] mb-4">Methodological Rigour</h2>
-                <h3 class="text-4xl font-black text-slate-900 leading-tight">Biostatistical precision for public health.</h3>
-                <p class="text-slate-500 mt-8 text-lg leading-relaxed font-medium">
-                    As a <b>Biostatistician</b> in training, I ensure that the clinical and social data used in policy is <b>representative</b> and <b>scientifically sound</b>.
-                </p>
-            </div>
-
-            <div class="lg:col-span-2 grid md:grid-cols-2 gap-10">
-                <!-- Biostatistics -->
-                <div class="p-10 rounded-3xl border border-slate-100 hover:border-blue-200 transition-all group">
-                    <div class="w-14 h-14 rounded-2xl bg-slate-900 text-white flex items-center justify-center mb-8">
-                        <i class="fas fa-chart-area text-xl"></i>
-                    </div>
-                    <h4 class="font-extrabold text-2xl mb-5 tracking-tight">Biostatistics</h4>
-                    <p class="text-slate-500 text-sm leading-relaxed mb-6 italic">Validation & Theoretical Frameworks.</p>
-                    <ul class="text-[14px] text-slate-600 space-y-4 font-medium">
-                        <li class="flex items-start">
-                            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 mr-4 shrink-0"></span>
-                            <span>Expertise in <b>Sampling Theory</b> to ensure regional health surveys are statistically representative.</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 mr-4 shrink-0"></span>
-                            <span>Development of <b>automated R-scripts</b> for real-time validation of infectious disease records.</span>
-                        </li>
-                    </ul>
+    <!-- Enhanced Navigation -->
+    <nav class="sticky top-0 z-[300] border-b border-white/10 glass px-8 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-5">
+                <div id="logoBox" class="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all duration-500">
+                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 </div>
-
-                <!-- Epidemiology -->
-                <div class="p-10 rounded-3xl border border-slate-100 hover:border-blue-200 transition-all group">
-                    <div class="w-14 h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center mb-8">
-                        <i class="fas fa-biohazard text-xl"></i>
-                    </div>
-                    <h4 class="font-extrabold text-2xl mb-5 tracking-tight">Epidemiology</h4>
-                    <p class="text-slate-500 text-sm leading-relaxed mb-6 italic">Surveillance & Outbreak Response.</p>
-                    <ul class="text-[14px] text-slate-600 space-y-4 font-medium">
-                        <li class="flex items-start">
-                            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 mr-4 shrink-0"></span>
-                            <span>Supported <b>Africa CDC</b> in behavioural research identifying transmission drivers for <b>Mpox</b>.</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 mr-4 shrink-0"></span>
-                            <span>Implementation of <b>complex logic checks</b> in digital field instruments to eliminate entry bias.</span>
-                        </li>
-                    </ul>
+                <div>
+                    <span class="text-2xl font-black text-white tracking-tighter uppercase block leading-none">StatGate</span>
+                    <span class="text-[10px] font-bold text-blue-400 uppercase tracking-[0.4em]" id="protocolSub">Omni-Sector Protocol</span>
                 </div>
+            </div>
 
-                <!-- Informatics -->
-                <div class="p-10 rounded-3xl border border-slate-100 hover:border-blue-200 transition-all group">
-                    <div class="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center mb-8">
-                        <i class="fas fa-microscope text-xl"></i>
-                    </div>
-                    <h4 class="font-extrabold text-2xl mb-5 tracking-tight">Health Informatics</h4>
-                    <p class="text-slate-500 text-sm leading-relaxed mb-6 italic">Infrastructure for Health Intelligence.</p>
-                    <ul class="text-[14px] text-slate-600 space-y-4 font-medium">
-                        <li class="flex items-start">
-                            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 mr-4 shrink-0"></span>
-                            <span>Optimising <b>DHIS2 and REDCap</b> pipelines for the Ministry of Health's Information Systems.</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 mr-4 shrink-0"></span>
-                            <span>Auditing <b>3,500+ records</b> to align national registries with <b>WHO standards</b>.</span>
-                        </li>
-                    </ul>
+            <div class="hidden lg:flex gap-2 bg-white/5 p-1.5 rounded-2xl border border-white/10">
+                <button onclick="switchSector('health')" id="btn-health" class="sector-btn active px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">Health</button>
+                <button onclick="switchSector('finance')" id="btn-finance" class="sector-btn px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">Finance</button>
+                <button onclick="switchSector('energy')" id="btn-energy" class="sector-btn px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">Energy</button>
+                <button onclick="switchSector('logistics')" id="btn-logistics" class="sector-btn px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">Logistics</button>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <!-- Global Ingestion Counter -->
+                <div class="hidden xl:block text-right border-r border-white/10 pr-6">
+                    <div class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Global Ingestion</div>
+                    <div id="navGDP" class="text-xs text-white font-black mono uppercase tracking-tighter">$ 104.25 T</div>
                 </div>
-
-                <!-- Research -->
-                <div class="p-10 rounded-3xl border border-slate-100 hover:border-blue-200 transition-all group">
-                    <div class="w-14 h-14 rounded-2xl bg-slate-100 text-slate-900 flex items-center justify-center mb-8">
-                        <i class="fas fa-file-medical text-xl"></i>
+                <div class="hidden sm:block text-right border-r border-white/10 pr-6">
+                    <div class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Auth Status</div>
+                    <div class="flex items-center gap-2 justify-end">
+                        <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                        <span class="text-xs text-white font-black mono uppercase tracking-tighter">Lead Admin</span>
                     </div>
-                    <h4 class="font-extrabold text-2xl mb-5 tracking-tight">Clinical Research</h4>
-                    <p class="text-slate-500 text-sm leading-relaxed mb-6 italic">Quantitative Evidence Synthesis.</p>
-                    <ul class="text-[14px] text-slate-600 space-y-4 font-medium">
-                        <li class="flex items-start">
-                            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 mr-4 shrink-0"></span>
-                            <span>Application of <b>Design of Experiments (DoE)</b> principles to clinical research frameworks.</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 mr-4 shrink-0"></span>
-                            <span>Statistical support for <b>socio-ecological assessments</b> in public health emergency zones.</span>
-                        </li>
-                    </ul>
+                </div>
+                <div class="text-right">
+                    <div class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Database Node</div>
+                    <div id="navRegion" class="text-sm text-blue-400 font-black mono uppercase tracking-tighter">Africa Hub</div>
                 </div>
             </div>
         </div>
-    </section>
+    </nav>
 
-    <!-- Scientific Focus -->
-    <section id="impact" class="py-32 bg-slate-50">
-        <div class="max-w-6xl mx-auto px-6">
-            <div class="mb-20">
-                <h2 class="text-xs font-black text-blue-600 uppercase tracking-[0.3em] mb-4">The Science of Service</h2>
-                <h3 class="text-5xl font-black text-slate-900">Validated Population Health</h3>
-            </div>
-            
-            <div class="bg-white rounded-[3rem] p-10 lg:p-20 border border-slate-200 shadow-sm flex flex-col lg:flex-row gap-20 items-center">
-                <div class="lg:w-1/2">
-                    <p class="text-xl text-slate-600 leading-relaxed mb-10 font-medium">
-                        A <b>Statistician's</b> greatest impact is in the <b>truth</b> of their data. At the <b>National Health Observatory</b>, I protect the accuracy of the metrics that define our nation's response to disease.
-                    </p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                        <div>
-                            <p class="text-3xl font-black text-blue-600 mb-2">99%</p>
-                            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Reporting Compliance</p>
-                        </div>
-                        <div>
-                            <p class="text-3xl font-black text-blue-600 mb-2">Weekly</p>
-                            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Surveillance Audits</p>
+    <main class="max-w-7xl mx-auto px-8 py-10 relative">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
+            <div class="lg:col-span-8 glass rounded-[3rem] p-10 border-white/20 relative overflow-hidden min-h-[550px] shadow-2xl">
+                <div class="flex justify-between items-start relative z-10">
+                    <div>
+                        <h3 class="text-white font-black uppercase tracking-[0.2em] text-sm italic">Unified Global Mesh</h3>
+                        <p id="mapDescription" class="text-[10px] text-blue-400 font-bold uppercase tracking-widest mt-1">Satellite Ingestion: Uganda Region</p>
+                    </div>
+                    <div class="flex flex-col items-end gap-2">
+                        <div id="sectorBadge" class="px-5 py-2 bg-blue-500/20 border-2 border-blue-500/40 text-blue-300 text-[11px] font-black uppercase rounded-full shadow-[0_0_15px_rgba(59,130,246,0.3)]">Active: Health Surveillance</div>
+                        <div id="timerBadge" class="text-[9px] mono text-slate-500 font-bold uppercase">Next Shift: 20s</div>
+                    </div>
+                </div>
+
+                <div class="absolute inset-0 p-16">
+                    <div class="relative w-full h-full">
+                        <svg viewBox="0 0 1000 500" class="w-full h-full opacity-60 map-glow">
+                            <path d="M50,250 L950,250 M500,50 L500,450" stroke="rgba(59,130,246,0.1)" stroke-width="1"/>
+                            <circle id="node-NA" cx="180" cy="160" r="6" class="fill-slate-700 transition-all duration-500"/>
+                            <circle id="node-SA" cx="280" cy="380" r="6" class="fill-slate-700 transition-all duration-500"/>
+                            <circle id="node-AF" cx="520" cy="280" r="10" class="fill-blue-500 transition-all duration-500"/>
+                            <circle id="node-EU" cx="510" cy="140" r="6" class="fill-slate-700 transition-all duration-500"/>
+                            <circle id="node-AS" cx="780" cy="180" r="6" class="fill-slate-700 transition-all duration-500"/>
+                            <circle id="node-AU" cx="880" cy="420" r="6" class="fill-slate-700 transition-all duration-500"/>
+                            <circle id="activeRing" cx="520" cy="280" r="24" fill="none" stroke="currentColor" stroke-width="2" class="ring-anim text-blue-500/50"/>
+                        </svg>
+
+                        <!-- Dynamic Tooltip -->
+                        <div id="weatherUI" class="weather-marker" style="top: 56%; left: 52%;">
+                            <div class="bg-blue-500/20 backdrop-blur-md border-2 border-blue-500/50 p-4 rounded-3xl flex flex-col items-center gap-2 shadow-[0_0_25px_rgba(59,130,246,0.4)] min-w-[140px]">
+                                <div class="flex items-center gap-3">
+                                    <span id="mapTemp" class="text-xl mono text-white font-black">28.4°C</span>
+                                    <div id="weatherIconContainer" class="text-amber-400">
+                                        <svg class="w-6 h-6 animate-spin-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707m12.727 12.727L5 5"></path></svg>
+                                    </div>
+                                </div>
+                                <div class="w-full h-px bg-white/10"></div>
+                                <div id="healthImpact" class="text-[9px] text-blue-300 font-bold uppercase text-center leading-tight">Meningitis Risk: Elevating</div>
+                            </div>
                         </div>
                     </div>
-                    <div class="mt-12 pt-10 border-t border-slate-100 flex items-center gap-6">
-                        <!-- Small Portrait with official image -->
-                        <img src="https://myportal.kyu.ac.ug/photos/student-photos/2200802932.jpeg" class="w-12 h-12 rounded-full object-cover grayscale opacity-70" alt="J.M.">
-                        <p class="text-sm font-bold text-slate-500 leading-relaxed italic">
-                            "Wherever I step, I leave purpose behind. My purpose is ensuring every health indicator—be it <b>HIV, Malaria, or Mpox</b>—is a true reflection of the population's wellbeing."
-                        </p>
-                    </div>
-                </div>
-                <div class="lg:w-1/2 w-full flex flex-col gap-6">
-                    <div class="p-10 bg-slate-900 rounded-[2rem] text-white">
-                        <p class="text-xs font-bold text-blue-400 uppercase tracking-widest mb-4">Scientific Ethos</p>
-                        <p class="text-2xl font-bold leading-tight tracking-tight italic">
-                            "Bridging the field reality with clinical evidence through biostatistical rigor."
-                        </p>
-                    </div>
-                    <div class="p-10 bg-blue-600 rounded-[2rem] text-white">
-                        <p class="text-xs font-bold text-blue-200 uppercase tracking-widest mb-4">Current Focus</p>
-                        <p class="text-2xl font-bold">Health Information Systems (HIS) Specialist</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Vision Roadmap -->
-    <section id="vision" class="py-32 max-w-4xl mx-auto px-6">
-        <div class="text-center mb-24">
-            <h2 class="text-xs font-black text-blue-600 uppercase tracking-[0.3em] mb-4">Academic Trajectory</h2>
-            <h3 class="text-5xl font-black text-slate-900">Becoming a Leader in Biostatistics</h3>
-        </div>
-
-        <div class="relative">
-            <div class="absolute left-0 top-0 h-full w-px roadmap-line ml-4 lg:ml-0"></div>
-            
-            <div class="space-y-24">
-                <div class="relative pl-12 lg:pl-20">
-                    <div class="absolute left-0 top-1 w-8 h-8 rounded-full bg-white border-4 border-blue-600 -ml-[15.5px] lg:ml-[-16px] z-10"></div>
-                    <div>
-                        <span class="text-blue-600 font-black text-xs uppercase tracking-widest">2026 — 2028</span>
-                        <h4 class="text-2xl font-black text-slate-900 mt-2">MSc Clinical Epidemiology & Biostatistics</h4>
-                        <p class="text-slate-500 mt-4 text-lg leading-relaxed max-w-xl font-medium">
-                            Enrolling at <b>Makerere University</b> to specialise in <b>stochastic modelling</b> and <b>survival analysis</b> of emerging infectious diseases.
-                        </p>
-                    </div>
                 </div>
 
-                <div class="relative pl-12 lg:pl-20">
-                    <div class="absolute left-0 top-1 w-8 h-8 rounded-full bg-white border-4 border-slate-900 -ml-[15.5px] lg:ml-[-16px] z-10"></div>
-                    <div>
-                        <span class="text-slate-900 font-black text-xs uppercase tracking-widest">2029 — 2032</span>
-                        <h4 class="text-2xl font-black text-slate-900 mt-2">PhD in Biostatistics</h4>
-                        <p class="text-slate-500 mt-4 text-lg leading-relaxed max-w-xl font-medium">
-                            Developing <b>predictive Bayesian frameworks</b> for outbreak detection in resource-limited settings. Consulting for <b>Africa CDC</b> on continental data standards.
-                        </p>
+                <div class="absolute bottom-10 left-10 right-10 grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="bg-slate-900/80 p-5 rounded-[2rem] data-card">
+                        <div class="text-[9px] text-slate-400 font-bold uppercase mb-1">Atmospheric PSI</div>
+                        <div id="livePSI" class="text-2xl font-black text-white italic">1013.2</div>
                     </div>
-                </div>
-
-                <div class="relative pl-12 lg:pl-20">
-                    <div class="absolute left-0 top-1 w-8 h-8 rounded-full accent-gradient border-4 border-white shadow-xl -ml-[15.5px] lg:ml-[-16px] z-10"></div>
-                    <div>
-                        <span class="text-blue-600 font-black text-xs uppercase tracking-widest">2033 & Beyond</span>
-                        <h4 class="text-2xl font-black text-slate-900 mt-2">Principal Epidemiologist (WHO/UN)</h4>
-                        <p class="text-slate-500 mt-4 text-lg leading-relaxed max-w-xl font-medium">
-                            Leading global <b>biostatistical consortia</b> to standardise health metrics across the Global South, ensuring data drives <b>health equity</b>.
-                        </p>
+                    <div class="bg-slate-900/80 p-5 rounded-[2rem] data-card">
+                        <div class="text-[9px] text-slate-400 font-bold uppercase mb-1">Humidity</div>
+                        <div id="liveHumidity" class="text-2xl font-black text-blue-400 italic">64%</div>
+                    </div>
+                    <div class="bg-slate-900/80 p-5 rounded-[2rem] data-card">
+                        <div class="text-[9px] text-slate-400 font-bold uppercase mb-1">Vector Velocity</div>
+                        <div id="liveWind" class="text-2xl font-black text-emerald-400 italic">4.2 m/s</div>
+                    </div>
+                    <div class="bg-slate-900/80 p-5 rounded-[2rem] data-card">
+                        <div class="text-[9px] text-slate-400 font-bold uppercase mb-1">UV Intensity</div>
+                        <div id="liveUV" class="text-2xl font-black text-amber-400 italic">8.2 High</div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Interactive Footer -->
-    <footer class="bg-white border-t border-slate-100">
-        <div class="max-w-6xl mx-auto px-6 py-20">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-12 mb-20">
-                <div class="max-w-md">
-                    <h4 class="text-4xl font-black text-slate-900 mb-6 tracking-tighter">MATOVU JAMES</h4>
-                    <p class="text-slate-500 font-medium leading-relaxed">
-                        <b>Statistician & Biostatistician</b> dedicated to the scientific integrity of public health surveillance.
-                    </p>
+            <!-- Enhanced Prediction Engine -->
+            <div class="lg:col-span-4 glass rounded-[3rem] p-10 border-white/20 flex flex-col shadow-2xl">
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="text-white font-black uppercase tracking-widest text-sm italic">Risk Engine</h3>
+                    <button onclick="handleExport()" class="btn-action p-2 rounded-lg group relative">
+                        <svg class="w-5 h-5 text-slate-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        <span class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-black text-white text-[9px] font-black uppercase px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Export Data</span>
+                    </button>
                 </div>
                 
-                <div class="flex flex-wrap gap-x-12 gap-y-6">
-                    <div class="flex flex-col gap-3">
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Professional Hub</span>
-                        <a href="mailto:matovujames193@gmail.com" class="footer-link text-sm font-bold text-slate-900">matovujames193@gmail.com</a>
-                        <a href="tel:+256787027919" class="footer-link text-sm font-bold text-slate-900">+256 787 027 919</a>
+                <div id="exportLoading" class="mb-6 p-4 bg-blue-600/20 border border-blue-500/50 rounded-2xl flex items-center gap-4">
+                    <div class="w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin"></div>
+                    <span class="text-[10px] mono text-white font-bold uppercase">Compiling Global CSV...</span>
+                </div>
+
+                <div class="flex-1 space-y-10">
+                    <div class="relative">
+                        <div class="flex justify-between text-xs uppercase font-black mb-4">
+                            <span id="riskLabel">Outbreak Probability</span>
+                            <span id="riskValue" class="text-rose-500">14% Low</span>
+                        </div>
+                        <div class="h-3 w-full bg-white/10 rounded-full overflow-hidden border border-white/5">
+                            <div id="riskBar" class="h-full bg-rose-500 shadow-[0_0_15px_rgba(244,63,94,0.6)] transition-all duration-1000" style="width: 14%;"></div>
+                        </div>
                     </div>
-                    <div class="flex flex-col gap-3">
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Connection</span>
-                        <a href="https://linkedin.com/in/statgate-uganda-224874235" target="_blank" class="footer-link text-sm font-bold text-slate-900">LinkedIn Profile</a>
-                        <span class="text-sm font-bold text-slate-300">StatGate Uganda</span>
+                    
+                    <div class="p-8 bg-blue-600/10 rounded-[2.5rem] border-2 border-blue-500/20 shadow-inner">
+                        <div class="text-[10px] text-blue-300 font-black uppercase mb-4 tracking-tighter italic">Environmental Context</div>
+                        <div class="flex items-center gap-6">
+                            <div id="weatherIconLarge" class="text-amber-400">
+                                <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707m12.727 12.727L5 5"></path></svg>
+                            </div>
+                            <div>
+                                <div id="weatherText" class="text-md text-white font-black leading-tight italic">Condition: Stable</div>
+                                <div id="weatherSubtext" class="text-[11px] text-slate-400 mt-2 leading-relaxed tracking-tight">Syncing Ministry of Health Observatories.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/5 border border-white/10 p-5 rounded-3xl">
+                        <div class="text-[9px] text-slate-500 font-black uppercase mb-3">System Access Log</div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-[10px] mono">
+                                <span class="text-slate-400">DB_ENCRYPTION</span>
+                                <span class="text-emerald-500">LOCKED</span>
+                            </div>
+                            <div class="flex justify-between text-[10px] mono">
+                                <span class="text-slate-400">DATA_INTEGRITY</span>
+                                <span class="text-emerald-500">99.9%</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="flex flex-col md:flex-row justify-between items-center pt-10 border-t border-slate-50 gap-8">
-                <p class="text-[10px] text-slate-400 font-black uppercase tracking-[0.4em]">
-                    &copy; 2026 | Statistician & Epidemiologist | Kampala, Uganda
-                </p>
-                
-                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="back-to-top group flex items-center gap-3">
-                    <span class="text-[10px] font-black text-slate-900 uppercase tracking-widest">Back to top</span>
-                    <div class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center group-hover:bg-slate-900 group-hover:text-white transition-all">
-                        <i class="fas fa-arrow-up text-xs"></i>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 glass rounded-[3rem] p-12 border-white/20 h-[450px] shadow-2xl">
+                <div class="flex justify-between items-center mb-12">
+                    <div>
+                        <h3 id="chartTitle" class="text-white font-black uppercase tracking-widest text-sm italic">Regional Stream Velocity</h3>
+                        <p class="text-[10px] text-slate-500 uppercase mt-1">Ingestion Frequency: 2.5Hz</p>
                     </div>
-                </button>
+                    <div class="flex gap-2 bg-white/5 p-1 rounded-xl border border-white/10">
+                        <button onclick="toggleChartRange('live')" id="range-live" class="px-4 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest bg-blue-600 text-white transition-all">Live</button>
+                        <button onclick="toggleChartRange('7d')" id="range-7d" class="px-4 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest text-slate-400 hover:text-white transition-all">7D Trend</button>
+                    </div>
+                </div>
+                <div class="h-[250px]">
+                    <canvas id="mainChart"></canvas>
+                </div>
+            </div>
+
+            <div class="glass rounded-[3rem] p-10 border-white/20 flex flex-col shadow-2xl">
+                <h3 class="text-white font-black uppercase tracking-widest text-sm italic mb-8">Unified Terminal</h3>
+                <div id="terminalBody" class="flex-1 mono text-[10px] leading-loose text-blue-300 overflow-hidden pr-2"></div>
             </div>
         </div>
-    </footer>
+    </main>
 
     <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+        let mainChart;
+        let currentSector = 'health';
+        let globalGDP = 104249129384120;
+        let activeRegionIndex = 0;
+        let timer = 20;
+        let isLive = true;
+
+        const regions = [
+            { id: 'AF', name: 'Africa Hub', x: 520, y: 280, top: '56%', left: '52%', temp: 28.4, psi: 1013, hum: 64, wind: 4.2, uv: 8.2, desc: 'Satellite Ingestion: Uganda Region', cond: 'Arid: Dust Risk', impact: 'Meningitis Risk: Elevating' },
+            { id: 'NA', name: 'North America', x: 180, y: 160, top: '32%', left: '18%', temp: 12.1, psi: 1021, hum: 42, wind: 12.5, uv: 2.1, desc: 'Satellite Ingestion: NYC Cluster', cond: 'Cool: High Velocity', impact: 'Lyme Vector: Low' },
+            { id: 'EU', name: 'Europe Hub', x: 510, y: 140, top: '28%', left: '51%', temp: 16.5, psi: 1018, hum: 55, wind: 6.8, uv: 4.5, desc: 'Satellite Ingestion: London Node', cond: 'Overcast: Mist Feed', impact: 'Respiratory Risk: Stable' },
+            { id: 'AS', name: 'Asia Hub', x: 780, y: 180, top: '36%', left: '78%', temp: 22.8, psi: 1009, hum: 88, wind: 2.1, uv: 9.4, desc: 'Satellite Ingestion: Tokyo Node', cond: 'Humid: Pathogen Lift', impact: 'Dengue Vector: Critical' },
+            { id: 'AU', name: 'Australia', x: 880, y: 420, top: '84%', left: '88%', temp: 31.2, psi: 1011, hum: 30, wind: 8.4, uv: 11.0, desc: 'Satellite Ingestion: Sydney Hub', cond: 'Extreme Heat: Arid', impact: 'UV Advisory: Active' },
+            { id: 'SA', name: 'South America', x: 280, y: 380, top: '76%', left: '28%', temp: 24.5, psi: 1014, hum: 75, wind: 5.2, uv: 7.8, desc: 'Satellite Ingestion: Brazil Node', cond: 'Rainfall: Vector Spike', impact: 'Zika Potential: Moderate' }
+        ];
+
+        const sectorConfig = {
+            health: { color: '#3b82f6', sub: 'Health Surveillance Protocol', label: 'Disease Stream', risk: 'Outbreak Prob', badge: 'Active: Health Surveillance' },
+            finance: { color: '#10b981', sub: 'Financial Governance Protocol', label: 'Transact Flow', risk: 'Volatility', badge: 'Active: Fin-Audit Mesh' },
+            energy: { color: '#f59e0b', sub: 'Grid Resilience Protocol', label: 'Power Load', risk: 'Instability', badge: 'Active: Power Oracle' },
+            logistics: { color: '#f43f5e', sub: 'Supply Velocity Protocol', label: 'Asset Movement', risk: 'Disruption', badge: 'Active: Supply Telemetry' }
+        };
+
+        function initCharts() {
+            const chartCanvas = document.getElementById('mainChart');
+            if (!chartCanvas) return;
+            const ctx = chartCanvas.getContext('2d');
+            mainChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array(30).fill(''),
+                    datasets: [{
+                        data: Array(30).fill(0).map(() => 45 + Math.random() * 25),
+                        borderColor: '#3b82f6',
+                        borderWidth: 4, tension: 0.45, pointRadius: 0, fill: true,
+                        backgroundColor: (context) => {
+                            const chart = context.chart;
+                            const {ctx, chartArea} = chart;
+                            if (!chartArea) return null;
+                            const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+                            gradient.addColorStop(0, 'transparent');
+                            gradient.addColorStop(1, 'rgba(59, 130, 246, 0.2)');
+                            return gradient;
+                        }
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { display: false }, y: { display: false } }
                 }
             });
-        }, { threshold: 0.1 });
+        }
 
-        document.querySelectorAll('section').forEach(section => {
-            section.classList.add('section-fade');
-            observer.observe(section);
-        });
+        function handleExport() {
+            const loading = document.getElementById('exportLoading');
+            if (loading) loading.style.display = 'flex';
+            logTerminal('REQUEST_INITIATED: REGIONAL_INTELLIGENCE_REPORT');
+            setTimeout(() => {
+                if (loading) loading.style.display = 'none';
+                logTerminal('SUCCESS: STATGATE_REPORT_GEN_V1.PDF EXPORTED.');
+            }, 3000);
+        }
+
+        function toggleChartRange(range) {
+            isLive = (range === 'live');
+            const rangeLive = document.getElementById('range-live');
+            const range7d = document.getElementById('range-7d');
+            
+            if (rangeLive) {
+                rangeLive.classList.toggle('bg-blue-600', isLive);
+                rangeLive.classList.toggle('text-white', isLive);
+            }
+            if (range7d) {
+                range7d.classList.toggle('bg-blue-600', !isLive);
+                range7d.classList.toggle('text-white', !isLive);
+            }
+            
+            if (!isLive && mainChart) {
+                // Generate smoother "historical" data
+                const smooth = [40, 42, 38, 45, 55, 62, 58, 50, 48, 52, 60, 65, 70, 68, 62, 58, 55, 52, 50, 48, 45, 42, 40, 38, 35, 32, 35, 40, 42, 45];
+                mainChart.data.datasets[0].data = smooth;
+            }
+            if (mainChart) mainChart.update();
+            logTerminal(`CHART_MODE_SWITCHED: ${range.toUpperCase()}`);
+        }
+
+        function rotateRegion() {
+            activeRegionIndex = (activeRegionIndex + 1) % regions.length;
+            const region = regions[activeRegionIndex];
+            
+            const navRegion = document.getElementById('navRegion');
+            if (navRegion) navRegion.innerText = region.name;
+            
+            const mapDesc = document.getElementById('mapDescription');
+            if (mapDesc) mapDesc.innerText = region.desc;
+            
+            const ring = document.getElementById('activeRing');
+            if (ring) {
+                ring.setAttribute('cx', region.x);
+                ring.setAttribute('cy', region.y);
+            }
+
+            regions.forEach(r => {
+                const node = document.getElementById(`node-${r.id}`);
+                if (node) {
+                    node.style.fill = (r.id === region.id) ? 'var(--accent)' : '#334155';
+                    node.setAttribute('r', (r.id === region.id) ? 10 : 6);
+                }
+            });
+
+            const weatherUI = document.getElementById('weatherUI');
+            if (weatherUI) {
+                weatherUI.style.top = region.top;
+                weatherUI.style.left = region.left;
+            }
+
+            const mapTemp = document.getElementById('mapTemp');
+            if (mapTemp) mapTemp.innerText = `${region.temp}°C`;
+
+            const psiEl = document.getElementById('livePSI');
+            if (psiEl) psiEl.innerText = region.psi;
+
+            const humEl = document.getElementById('liveHumidity');
+            if (humEl) humEl.innerText = `${region.hum}%`;
+
+            const windEl = document.getElementById('liveWind');
+            if (windEl) windEl.innerText = `${region.wind} m/s`;
+
+            const uvEl = document.getElementById('liveUV');
+            if (uvEl) uvEl.innerText = `${region.uv}`;
+
+            const weatherTxt = document.getElementById('weatherText');
+            if (weatherTxt) weatherTxt.innerText = region.cond;
+
+            const impactEl = document.getElementById('healthImpact');
+            if (impactEl) impactEl.innerText = region.impact;
+
+            logTerminal(`HANDSHAKE [${region.name.toUpperCase()}] SECURE. DATA_SYNC_COMPLETE.`);
+            updateRisk();
+        }
+
+        function switchSector(sector) {
+            currentSector = sector;
+            const config = sectorConfig[sector];
+            document.documentElement.style.setProperty('--accent', config.color);
+            document.querySelectorAll('.sector-btn').forEach(b => b.classList.toggle('active', b.id === `btn-${sector}`));
+            
+            const logoBox = document.getElementById('logoBox');
+            if (logoBox) logoBox.style.backgroundColor = config.color;
+            
+            const protocolSub = document.getElementById('protocolSub');
+            if (protocolSub) {
+                protocolSub.innerText = config.sub;
+                protocolSub.style.color = config.color;
+            }
+            
+            const sectorBadge = document.getElementById('sectorBadge');
+            if (sectorBadge) {
+                sectorBadge.innerText = config.badge;
+                sectorBadge.style.color = config.color;
+            }
+            
+            const chartTitle = document.getElementById('chartTitle');
+            if (chartTitle) chartTitle.innerText = config.label;
+            
+            const riskLabel = document.getElementById('riskLabel');
+            if (riskLabel) riskLabel.innerText = config.risk;
+            
+            if (mainChart) {
+                mainChart.data.datasets[0].borderColor = config.color;
+                mainChart.update();
+            }
+            rotateRegion();
+        }
+
+        function updateRisk() {
+            const val = Math.floor(10 + Math.random() * 85);
+            const bar = document.getElementById('riskBar');
+            const txt = document.getElementById('riskValue');
+            if (!bar || !txt) return;
+
+            bar.style.width = val + '%';
+            if(val < 35) { 
+                txt.innerText = val + '% Nominal'; 
+                txt.className = 'text-emerald-400'; 
+                bar.style.backgroundColor = 'var(--emerald)'; 
+            } else if(val < 65) { 
+                txt.innerText = val + '% Alert'; 
+                txt.className = 'text-amber-400'; 
+                bar.style.backgroundColor = 'var(--amber)'; 
+            } else { 
+                txt.innerText = val + '% Critical'; 
+                txt.className = 'text-rose-500'; 
+                bar.style.backgroundColor = 'var(--rose)'; 
+            }
+        }
+
+        function logTerminal(msg) {
+            const body = document.getElementById('terminalBody');
+            if (!body) return;
+            const time = new Date().toLocaleTimeString('en-GB', { hour12: false });
+            body.innerHTML = `<div class="mb-1"><span class="text-slate-600">[${time}]</span> ${msg}</div>` + body.innerHTML;
+        }
+
+        function startGlobalLoop() {
+            setInterval(() => {
+                timer--;
+                const timerBadge = document.getElementById('timerBadge');
+                if (timerBadge) timerBadge.innerText = `Next Shift: ${timer}s`;
+                
+                if(timer <= 0) {
+                    rotateRegion();
+                    timer = 20;
+                }
+
+                globalGDP += 125000;
+                const navGDP = document.getElementById('navGDP');
+                if (navGDP) {
+                    navGDP.innerText = `$ ${(globalGDP / 1e12).toFixed(2)} T`;
+                }
+                
+                if (isLive && mainChart) {
+                    mainChart.data.datasets[0].data.push(40 + Math.random() * 50);
+                    mainChart.data.datasets[0].data.shift();
+                    mainChart.update('none');
+                }
+            }, 1000);
+        }
+
+        window.onload = () => {
+            initCharts();
+            startGlobalLoop();
+            logTerminal('SYSTEM_READY // LEAD_ADMIN_AUTHENTICATED');
+        };
     </script>
 </body>
 </html>
