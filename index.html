@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StatGate | High-Frequency Intelligence</title>
+    <title>StatGate | Unified Singularity</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -15,7 +15,6 @@
             --amber: #f59e0b;
             --rose: #f43f5e;
             --violet: #8b5cf6;
-            --cyan: #22d3ee;
         }
         body {
             background-color: var(--bg-dark);
@@ -26,75 +25,57 @@
         }
         .mono { font-family: 'JetBrains Mono', monospace; }
         .glass {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(20px);
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
         .scanline {
             width: 100%; height: 100%;
-            background: linear-gradient(to bottom, transparent 0%, rgba(59, 130, 246, 0.01) 50%, transparent 100%);
+            background: linear-gradient(to bottom, transparent 0%, rgba(59, 130, 246, 0.02) 50%, transparent 100%);
             background-size: 100% 4px;
             position: fixed; top: 0; left: 0;
-            pointer-events: none; z-index: 100;
+            pointer-events: none; z-index: 1000;
         }
         .grid-bg {
             background-image: linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
                               linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
+            background-size: 50px 50px;
         }
         
         @keyframes slideIn {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .feed-item { animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .feed-item { animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
-        
-        .prediction-bar { transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-
-        @keyframes ticker {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
+        .thought-float {
+            animation: floatText 12s linear infinite;
+            pointer-events: none;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
         }
-        .ticker-text {
-            display: inline-block;
-            white-space: nowrap;
-            animation: ticker 25s linear infinite;
-        }
-        
-        .fast-pulse { animation: pulse 0.8s infinite; }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+        @keyframes floatText {
+            0% { transform: translateY(10px); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-60px); opacity: 0; }
         }
 
         .node-pulse {
-            animation: nodeGrow 2s infinite ease-in-out;
+            animation: nodeGrow 4s infinite ease-in-out;
             transform-origin: center;
         }
         @keyframes nodeGrow {
-            0%, 100% { transform: scale(1); opacity: 0.4; }
+            0%, 100% { transform: scale(1); opacity: 0.3; }
             50% { transform: scale(2.5); opacity: 0.1; }
         }
 
-        .slider-custom {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 2px;
-            background: rgba(255,255,255,0.1);
-            outline: none;
+        .active-tab-glow {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+            border-bottom: 2px solid var(--accent) !important;
         }
-        .slider-custom::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 10px;
-            height: 10px;
-            background: var(--accent);
-            cursor: pointer;
-            border-radius: 50%;
-        }
+
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
     </style>
 </head>
 <body class="selection:bg-blue-500/30">
@@ -102,340 +83,415 @@
     <div class="scanline"></div>
     <div class="fixed inset-0 grid-bg pointer-events-none"></div>
 
-    <nav class="h-14 border-b border-white/5 glass flex items-center px-6 justify-between relative z-[300]">
-        <div class="flex items-center gap-4">
-            <div class="w-7 h-7 bg-blue-600 rounded flex items-center justify-center shadow-lg">
-                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-            </div>
-            <div>
-                <span class="text-xs font-black text-white tracking-widest uppercase block leading-none">StatGate Totality</span>
-                <span id="aiStatus" class="text-[7px] font-bold text-blue-400 uppercase tracking-[0.4em]">Overclocked Mode: ACTIVE</span>
+    <!-- Top Navigation -->
+    <nav class="h-16 border-b border-white/5 glass flex items-center px-8 justify-between relative z-[1100]">
+        <div class="flex items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-2xl">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                </div>
+                <div>
+                    <span class="text-sm font-black text-white tracking-widest uppercase block leading-none">StatGate Singularity</span>
+                    <span id="aiStatus" class="text-[8px] font-bold text-blue-400 uppercase tracking-[0.4em]">Sub-Neural Link: STABLE</span>
+                </div>
             </div>
         </div>
 
-        <div class="flex items-center gap-10 mono">
+        <div class="flex gap-4">
+            <button onclick="switchMode('analyze')" id="btn-analyze" class="px-6 h-10 border-b-2 border-transparent text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-white transition-all active-tab-glow">Global Analysis</button>
+            <button onclick="switchMode('imagine')" id="btn-imagine" class="px-6 h-10 border-b-2 border-transparent text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-white transition-all">Multimodal Synth</button>
+            <button onclick="switchMode('simulate')" id="btn-simulate" class="px-6 h-10 border-b-2 border-transparent text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-white transition-all">Future Projections</button>
+        </div>
+
+        <div class="flex items-center gap-8 mono">
             <div class="text-right">
-                <div class="text-[7px] font-bold text-slate-500 uppercase tracking-widest">Update Frequency</div>
-                <div class="text-[9px] text-emerald-400 font-bold">15s / REFRESH</div>
+                <div class="text-[8px] font-bold text-slate-500 uppercase tracking-widest">Entropy</div>
+                <div id="entropyVal" class="text-[10px] text-amber-400 font-bold">0.4421</div>
             </div>
             <div class="text-right">
-                <div class="text-[7px] font-bold text-slate-500 uppercase tracking-widest">Entropy</div>
-                <div id="entropyVal" class="text-[9px] text-amber-400 font-bold">0.5000</div>
-            </div>
-            <div class="text-right">
-                <div class="text-[7px] font-bold text-slate-500 uppercase tracking-widest">Resonance</div>
-                <div id="resonanceVal" class="text-[9px] text-emerald-400 font-bold">85.00%</div>
+                <div class="text-[8px] font-bold text-slate-500 uppercase tracking-widest">Resonance</div>
+                <div id="resonanceVal" class="text-[10px] text-emerald-400 font-bold">92.1%</div>
             </div>
         </div>
     </nav>
 
-    <div class="grid grid-cols-12 h-[calc(100vh-6.5rem)] p-3 gap-3 overflow-hidden">
-        <!-- LEFT: Feed & Latency -->
-        <div class="col-span-3 flex flex-col gap-3 h-full overflow-hidden">
-            <div class="flex-[3] glass rounded-2xl border-white/10 flex flex-col overflow-hidden">
-                <div class="p-3 border-b border-white/5 flex justify-between items-center bg-white/5">
-                    <div class="flex items-center gap-2">
-                        <span class="text-[9px] font-black uppercase tracking-widest text-blue-400">High-Freq Stream</span>
-                        <div id="feedPulse" class="w-1.5 h-1.5 bg-rose-500 rounded-full fast-pulse"></div>
-                    </div>
+    <div class="grid grid-cols-12 h-[calc(100vh-4rem)] p-4 gap-4 overflow-hidden relative">
+        
+        <!-- LEFT: Real-time Signal Feed -->
+        <div class="col-span-3 flex flex-col gap-4 overflow-hidden">
+            <div class="flex-1 glass rounded-3xl border-white/10 flex flex-col overflow-hidden">
+                <div class="p-4 border-b border-white/5 flex justify-between items-center bg-white/5">
+                    <span class="text-[10px] font-black uppercase tracking-widest text-blue-400">Signal Ingest</span>
+                    <div id="feedPulse" class="w-2 h-2 bg-blue-500 rounded-full animate-pulse shadow-[0_0_10px_#3b82f6]"></div>
                 </div>
-                <div id="socialFeed" class="flex-1 overflow-y-auto p-3 space-y-2 text-[10px]">
-                    <div class="text-slate-600 italic animate-pulse py-4 text-center text-[8px]">Synchronizing with global news nodes...</div>
+                <div id="socialFeed" class="flex-1 overflow-y-auto p-4 space-y-3 text-[11px]">
+                    <div class="text-slate-600 italic animate-pulse py-8 text-center text-[9px]">Ingesting global data streams...</div>
                 </div>
             </div>
             
-            <div class="flex-1 glass rounded-2xl border-white/10 p-4">
-                <span class="text-[9px] font-black text-emerald-400 uppercase tracking-widest block mb-3">Sync Latency</span>
-                <div class="space-y-4">
-                    <div class="space-y-1">
-                        <div class="flex justify-between text-[7px] uppercase font-bold text-slate-500">
-                            <span>Global Jitter</span>
-                            <span id="stressText" class="text-rose-400">0.02ms</span>
-                        </div>
-                        <div class="h-1 bg-white/5 rounded-full overflow-hidden">
-                            <div id="stressBar" class="h-full bg-blue-500 w-[15%] transition-all duration-300"></div>
-                        </div>
-                    </div>
-                </div>
+            <div class="h-40 glass rounded-3xl border-white/10 p-5 overflow-hidden">
+                <span class="text-[10px] font-black text-violet-400 uppercase tracking-widest block mb-4">Neural Latency</span>
+                <canvas id="latencyChart" class="w-full h-full"></canvas>
             </div>
         </div>
 
-        <!-- CENTER: Map & War Room Debate -->
-        <div class="col-span-6 flex flex-col gap-3 h-full">
-            <div class="flex-[3] glass rounded-3xl border-white/10 relative overflow-hidden flex flex-col p-5">
-                <div class="flex justify-between items-start z-10">
-                    <h2 class="text-white font-black text-[10px] uppercase tracking-[0.3em]">Synaptic Pulse Map</h2>
-                    <div class="text-[7px] mono text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">GLOBAL_MESH: ACTIVE</div>
+        <!-- CENTER: The Cognitive Canvas -->
+        <div class="col-span-6 flex flex-col gap-4 h-full relative">
+            
+            <!-- MODE: ANALYZE (The Pulse Map) -->
+            <div id="view-analyze" class="flex-1 glass rounded-[2.5rem] border-white/10 relative overflow-hidden flex flex-col p-6 group">
+                <div class="flex justify-between items-start z-10 pointer-events-none">
+                    <div>
+                        <h2 class="text-white font-black text-xs uppercase tracking-[0.3em]">Planetary Pulse Map</h2>
+                        <p class="text-[8px] text-slate-500 mono mt-1">Associative Cognitive Overlay Active</p>
+                    </div>
                 </div>
                 
-                <div class="flex-1 flex items-center justify-center relative min-h-0">
+                <div class="flex-1 relative cursor-crosshair" id="mapContainer">
                     <svg id="worldMapSvg" viewBox="0 0 800 400" class="w-full h-full">
-                        <!-- Simplified World Paths -->
-                        <path d="M150,100 L200,80 L250,90 L280,120 L260,180 L200,220 L140,200 Z" fill="rgba(255,255,255,0.03)" />
-                        <path d="M450,80 L550,70 L650,100 L700,180 L600,250 L500,220 Z" fill="rgba(255,255,255,0.03)" />
-                        <path d="M200,250 L250,240 L300,350 L220,380 Z" fill="rgba(255,255,255,0.03)" />
-                        <g id="connectionLines" stroke="rgba(59,130,246,0.1)" stroke-width="0.5"></g>
+                        <g opacity="0.03" fill="white" id="landmass">
+                            <path d="M150,100 L250,80 L350,120 L300,200 L180,220 Z" />
+                            <path d="M450,100 L600,80 L750,150 L650,300 L500,250 Z" />
+                        </g>
+                        <g id="connectionLines" stroke-width="0.3"></g>
                         <g id="mapCircles"></g>
+                        <g id="thoughtOverlay"></g>
                     </svg>
                 </div>
 
-                <div class="absolute bottom-5 left-5 right-5">
-                    <div class="text-[7px] font-bold text-slate-500 uppercase mb-1">Live Sub-Processor Intent</div>
-                    <div id="activeIntervention" class="text-[10px] font-black text-violet-400 uppercase tracking-widest h-4 overflow-hidden italic">Awaiting sync...</div>
+                <div class="absolute bottom-8 left-8 right-8 z-10 pointer-events-none">
+                    <div class="text-[8px] font-bold text-slate-500 uppercase mb-2">Primary Sentiment Drift</div>
+                    <div id="activeIntervention" class="text-xs font-black text-blue-400 uppercase tracking-widest italic drop-shadow-lg">
+                        Initializing semantic bridge...
+                    </div>
                 </div>
             </div>
 
-            <!-- AGENT WAR ROOM DEBATE -->
-            <div class="flex-[2] glass rounded-3xl border-white/10 flex flex-col overflow-hidden relative">
-                <div class="p-3 bg-white/5 border-b border-white/5 flex justify-between items-center">
-                    <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Autonomous Nexus Debate</span>
-                    <div class="flex gap-2 text-[7px] font-bold">
-                        <span class="text-blue-400">TECH</span>
-                        <span class="text-emerald-400">ECO</span>
-                        <span class="text-amber-400">FIN</span>
+            <!-- MODE: IMAGINE (Multimodal Workbench) -->
+            <div id="view-imagine" class="hidden flex-1 glass rounded-[2.5rem] border-white/10 p-8 flex flex-col gap-6 overflow-y-auto">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-white font-black text-xs uppercase tracking-[0.3em]">Multimodal Synthesizer</h2>
+                    <div class="flex gap-2">
+                        <button onclick="toggleSearch()" id="searchToggle" class="px-3 py-1 rounded-full border border-blue-500/30 text-[8px] font-black text-blue-400 uppercase tracking-widest">Web Search: ON</button>
                     </div>
                 </div>
-                <div id="decisionChamber" class="flex-1 p-5 space-y-3 overflow-y-auto text-[10px] mono">
-                    <div class="text-slate-700 italic text-[8px]">Connecting to Agent personalities...</div>
+
+                <div class="space-y-4">
+                    <textarea id="aiInput" class="w-full h-32 bg-white/5 border border-white/10 rounded-2xl p-4 text-sm text-white placeholder:text-slate-600 focus:ring-2 focus:ring-blue-500 outline-none resize-none" placeholder="Enter a concept to synthesize..."></textarea>
+                    <div class="flex gap-3">
+                        <button onclick="runInference('text')" class="flex-1 py-3 bg-blue-600/20 border border-blue-500/50 rounded-xl text-[10px] font-black uppercase text-blue-300 hover:bg-blue-600/40 transition-all">Reason</button>
+                        <button onclick="runInference('image')" class="flex-1 py-3 bg-violet-600/20 border border-violet-500/50 rounded-xl text-[10px] font-black uppercase text-violet-300 hover:bg-violet-600/40 transition-all">Imagine</button>
+                        <button onclick="runInference('voice')" class="flex-1 py-3 bg-emerald-600/20 border border-emerald-500/50 rounded-xl text-[10px] font-black uppercase text-emerald-300 hover:bg-emerald-600/40 transition-all">Vocalize</button>
+                    </div>
+                </div>
+
+                <div id="inferenceOutput" class="flex-1 min-h-[200px] border border-white/5 rounded-3xl bg-black/30 p-6 overflow-y-auto relative">
+                    <div class="text-slate-700 text-[10px] mono text-center mt-20 italic">Output terminal ready...</div>
+                </div>
+            </div>
+
+            <!-- MODE: SIMULATE (The Prediction Engine) -->
+            <div id="view-simulate" class="hidden flex-1 glass rounded-[2.5rem] border-white/10 p-10 flex flex-col gap-8">
+                <div class="text-center space-y-2">
+                    <h2 class="text-white font-black text-lg uppercase tracking-[0.5em]">Monte Carlo Projections</h2>
+                    <p class="text-[10px] text-slate-500 uppercase tracking-widest italic">Simulation Environment: 2026 - 2045</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-10">
+                    <div class="space-y-6">
+                        <div class="space-y-2">
+                            <label class="flex justify-between text-[10px] font-bold text-slate-400 uppercase"><span>Automation Depth</span><span id="v1">45%</span></label>
+                            <input type="range" class="w-full accent-blue-500" oninput="v1.innerText=this.value+'%'">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="flex justify-between text-[10px] font-bold text-slate-400 uppercase"><span>Resource Scarcity</span><span id="v2">20%</span></label>
+                            <input type="range" class="w-full accent-rose-500" oninput="v2.innerText=this.value+'%'">
+                        </div>
+                        <button class="w-full py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] text-white transition-all">Calculate Future State</button>
+                    </div>
+                    <div class="bg-black/50 rounded-3xl border border-white/5 p-6 flex flex-col justify-center items-center text-center">
+                        <div class="w-24 h-24 rounded-full border-4 border-emerald-500/20 flex items-center justify-center mb-4">
+                            <span class="text-2xl font-black text-emerald-400">88%</span>
+                        </div>
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Coherence Probability</p>
+                        <p class="text-[9px] text-slate-600 mt-2 px-4 italic leading-relaxed">Structural integrity of chosen timeline remains within stable parameters.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="h-40 glass rounded-3xl border-white/10 flex flex-col overflow-hidden relative">
+                <div class="p-3 bg-white/5 border-b border-white/5 flex justify-between items-center">
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Cognitive Conflict Chamber</span>
+                </div>
+                <div id="decisionChamber" class="flex-1 p-4 space-y-4 overflow-y-auto text-[11px] mono">
+                    <div class="text-slate-700 italic text-[9px] text-center pt-4">Waiting for global triggers...</div>
                 </div>
             </div>
         </div>
 
-        <!-- RIGHT: Prediction & Simulation -->
-        <div class="col-span-3 flex flex-col gap-3 h-full">
-            <div class="flex-1 glass rounded-2xl border-white/10 p-5 flex flex-col gap-4">
-                <span class="text-[9px] font-black uppercase tracking-widest text-violet-400">Macro-Simulator v1.0</span>
-                <div class="space-y-4">
-                    <div class="space-y-1">
-                        <div class="flex justify-between text-[7px] font-bold text-slate-500 uppercase">
-                            <span>Automation Rate</span>
-                            <span id="autoVal" class="text-blue-400">45%</span>
-                        </div>
-                        <input type="range" min="0" max="100" value="45" class="slider-custom" id="simAuto" oninput="document.getElementById('autoVal').innerText = this.value + '%'">
+        <!-- RIGHT: Probabilities & System State -->
+        <div class="col-span-3 flex flex-col gap-4">
+            <div class="flex-1 glass rounded-3xl border-white/10 p-6 flex flex-col gap-6">
+                <span class="text-[10px] font-black uppercase tracking-widest text-amber-400">Systemic Variance</span>
+                <div class="flex-1 flex items-end gap-4 pb-4">
+                    <div class="flex-1 flex flex-col items-center gap-2">
+                        <div id="bar-utopia" class="w-full bg-emerald-500/20 border border-emerald-500/40 rounded-t-lg transition-all duration-700" style="height: 60%"></div>
+                        <span class="text-[8px] font-bold text-slate-500 uppercase">Integrity</span>
                     </div>
-                    <div class="space-y-1">
-                        <div class="flex justify-between text-[7px] font-bold text-slate-500 uppercase">
-                            <span>Carbon Tax</span>
-                            <span id="carbVal" class="text-emerald-400">12%</span>
-                        </div>
-                        <input type="range" min="0" max="100" value="12" class="slider-custom" id="simCarb" oninput="document.getElementById('carbVal').innerText = this.value + '%'">
+                    <div class="flex-1 flex flex-col items-center gap-2">
+                        <div id="bar-collapse" class="w-full bg-rose-500/20 border border-rose-500/40 rounded-t-lg transition-all duration-700" style="height: 40%"></div>
+                        <span class="text-[8px] font-bold text-slate-500 uppercase">Degradation</span>
                     </div>
-                    <button onclick="runSimulation()" class="w-full py-2 bg-violet-600/20 border border-violet-500/50 rounded text-[9px] font-black uppercase tracking-widest text-violet-300 hover:bg-violet-600/40 transition-all">
-                        Project Timeline
-                    </button>
                 </div>
-                <div id="simResult" class="flex-1 bg-black/40 rounded p-3 text-[8px] mono text-slate-400 border border-white/5 overflow-y-auto">
-                    Awaiting simulation parameters...
+                
+                <div class="space-y-4 pt-4 border-t border-white/5">
+                    <div class="flex justify-between items-center">
+                        <span class="text-[9px] font-bold text-slate-500 uppercase">AI Agency</span>
+                        <span class="text-[9px] font-black text-blue-400">CONSTRAINED</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[9px] font-bold text-slate-500 uppercase">Global Alert Level</span>
+                        <span class="text-[9px] font-black text-emerald-400 uppercase">Nominal</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="h-48 glass rounded-2xl border-white/10 p-5 flex flex-col">
-                <span class="text-[9px] font-black uppercase tracking-widest text-amber-400 mb-4">Timeline Instability</span>
-                <div class="flex-1 flex items-end gap-3 pb-4">
-                    <div class="flex-1 flex flex-col items-center gap-2">
-                        <div id="utopiaBar" class="w-full bg-emerald-500/30 border border-emerald-500/50 prediction-bar rounded-t-sm" style="height: 50%"></div>
-                        <span class="text-[7px] font-bold text-slate-500 uppercase">Stability</span>
+            <div class="h-48 glass rounded-3xl border-white/10 p-6 flex flex-col justify-center gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-blue-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     </div>
-                    <div class="flex-1 flex flex-col items-center gap-2">
-                        <div id="collapseBar" class="w-full bg-rose-500/30 border border-rose-500/50 prediction-bar rounded-t-sm" style="height: 50%"></div>
-                        <span class="text-[7px] font-bold text-slate-500 uppercase">Volatility</span>
+                    <div>
+                        <div class="text-[8px] font-bold text-slate-500 uppercase tracking-widest">Active Runtime</div>
+                        <div id="runtimeClock" class="text-xs font-black text-white mono">00:00:00:00</div>
                     </div>
                 </div>
-                <div class="mt-4 pt-4 border-t border-white/10">
-                    <canvas id="timelineChart" class="h-10"></canvas>
-                </div>
+                <button onclick="updateLiveIntel()" class="w-full py-3 bg-white/5 hover:bg-white/10 rounded-xl text-[9px] font-black uppercase tracking-[0.3em] text-slate-400 hover:text-white transition-all">Re-Sync Universal State</button>
             </div>
         </div>
     </div>
 
-    <div class="h-8 border-t border-white/5 glass fixed bottom-0 left-0 right-0 flex items-center overflow-hidden z-[400]">
-        <div class="bg-blue-600 px-3 h-full flex items-center z-10 shadow-xl">
-            <span class="text-[9px] font-black text-white italic uppercase tracking-widest whitespace-nowrap">Live Global Pulse</span>
+    <!-- Bottom Ticker -->
+    <div class="h-8 border-t border-white/5 glass fixed bottom-0 left-0 right-0 flex items-center overflow-hidden z-[1200]">
+        <div class="bg-blue-600 px-4 h-full flex items-center z-10 shadow-[5px_0_15px_rgba(0,0,0,0.5)]">
+            <span class="text-[10px] font-black text-white italic uppercase tracking-widest whitespace-nowrap">Singularity Ticker</span>
         </div>
         <div class="flex-1 relative overflow-hidden flex items-center">
-            <div id="ticker" class="ticker-text text-[9px] font-bold text-blue-400/80 uppercase mono">
-                CONNECTING TO GLOBAL NEWS NODES... OPTIMIZING SEARCH QUERIES... SCANNING FOR ENTROPY... 
+            <div id="ticker" class="ticker-text text-[10px] font-bold text-blue-400/80 uppercase mono">
+                STG_SYS_INIT: COMPLETE // CONNECTING TO GLOBAL SYMBOLIC LOGIC ENGINES...
             </div>
         </div>
     </div>
 
     <script>
         const apiKey = ""; 
-        let currentStress = 50;
+        let currentEntropy = 0.5;
+        let mapPoints = [];
+        let useSearch = true;
 
-        async function callGemini(prompt, isSearch = true, systemMsg = "") {
+        async function callGemini(prompt, search = true, system = "") {
             const payload = {
                 contents: [{ parts: [{ text: prompt }] }],
                 systemInstruction: { 
-                    parts: [{ text: systemMsg || "You are StatGate Overclocked. Return ONLY raw JSON in this format: [{'h': 'Headline', 'i': 'Analysis', 'e': 0.5, 't': 'Ticker'}]. No markdown code blocks." }] 
+                    parts: [{ text: system || "You are StatGate Unified. For intel, return ONLY raw JSON: [{'h': 'Headline', 'i': 'Impact', 'e': 0.5, 't': 'TICKER'}]. No markdown." }] 
                 }
             };
-            if (isSearch) payload.tools = [{ "google_search": {} }];
+            if (search) payload.tools = [{ "google_search": {} }];
+            
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                return result.candidates?.[0]?.content?.parts?.[0]?.text;
+            } catch (e) { return null; }
+        }
 
-            const retryDelays = [1000, 2000, 4000, 8000];
-            for (let i = 0; i <= retryDelays.length; i++) {
-                try {
-                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                    if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
-                    const result = await response.json();
-                    return result.candidates?.[0]?.content?.parts?.[0]?.text;
-                } catch (e) {
-                    if (i === retryDelays.length) return null;
-                    await new Promise(r => setTimeout(r, retryDelays[i]));
-                }
-            }
-            return null;
+        function switchMode(mode) {
+            ['analyze', 'imagine', 'simulate'].forEach(m => {
+                document.getElementById(`view-${m}`).classList.add('hidden');
+                document.getElementById(`btn-${m}`).classList.remove('active-tab-glow');
+            });
+            document.getElementById(`view-${mode}`).classList.remove('hidden');
+            document.getElementById(`btn-${mode}`).classList.add('active-tab-glow');
+            if(mode === 'analyze') drawMap();
+        }
+
+        function toggleSearch() {
+            useSearch = !useSearch;
+            document.getElementById('searchToggle').innerText = `Web Search: ${useSearch ? 'ON' : 'OFF'}`;
+            document.getElementById('searchToggle').classList.toggle('text-blue-400', useSearch);
+            document.getElementById('searchToggle').classList.toggle('text-slate-500', !useSearch);
         }
 
         async function updateLiveIntel() {
             const statusEl = document.getElementById('aiStatus');
-            statusEl.innerText = "QUERYING GLOBAL NODES...";
+            statusEl.innerText = "PROBING PLANETARY NODES...";
             
-            const rawText = await callGemini("Top 5 news items (last 60 mins) in Tech, Geopolitics, Finance, Climate.", true);
-            if (!rawText) { statusEl.innerText = "LATENCY ERROR"; return; }
+            const raw = await callGemini("Analyze 5 core global headlines (Tech, Geopolitics, Finance). Estimate Entropy (0.1 to 0.9).", true);
+            if (!raw) return;
 
             try {
-                const match = rawText.match(/\[[\s\S]*\]/);
-                if (!match) throw new Error("JSON not found");
+                const match = raw.match(/\[[\s\S]*\]/);
                 const intel = JSON.parse(match[0]);
                 
-                const container = document.getElementById('socialFeed');
+                const feed = document.getElementById('socialFeed');
                 const ticker = document.getElementById('ticker');
                 let tickerStr = "";
-                let totalEntropy = 0;
+                let totalE = 0;
 
-                container.innerHTML = "";
-                intel.forEach((item) => {
-                    totalEntropy += parseFloat(item.e || 0.5);
-                    tickerStr += ` [ ${item.t || item.h} ] ——— `;
+                feed.innerHTML = "";
+                intel.forEach(item => {
+                    totalE += item.e;
+                    tickerStr += ` [ ${item.t} ] ${item.h} // `;
                     const el = document.createElement('div');
-                    el.className = 'feed-item p-2 rounded bg-white/5 border-l-2 border-blue-500/50 mb-2';
-                    el.innerHTML = `<p class="text-[9px] font-bold text-white mb-0.5">${item.h}</p><p class="text-[8px] text-slate-500 leading-tight">${item.i}</p>`;
-                    container.prepend(el);
-                    if (container.childNodes.length > 15) container.lastChild.remove();
+                    el.className = 'feed-item p-3 rounded-2xl bg-white/5 border-l-4 border-blue-500/50 mb-3';
+                    el.innerHTML = `<p class="text-[10px] font-black text-white mb-1 uppercase">${item.h}</p><p class="text-[9px] text-slate-500 leading-relaxed">${item.i}</p>`;
+                    feed.appendChild(el);
                 });
 
                 ticker.innerText = tickerStr.repeat(3);
-                currentStress = (totalEntropy / intel.length) * 100;
+                currentEntropy = totalE / intel.length;
+                document.getElementById('entropyVal').innerText = currentEntropy.toFixed(4);
+                document.getElementById('bar-utopia').style.height = (100 - (currentEntropy*100)) + '%';
+                document.getElementById('bar-collapse').style.height = (currentEntropy*100) + '%';
                 
-                document.getElementById('entropyVal').innerText = (totalEntropy / intel.length).toFixed(4);
-                document.getElementById('resonanceVal').innerText = (100 - (currentStress * 0.3)).toFixed(2) + '%';
-                document.getElementById('utopiaBar').style.height = (100 - currentStress) + '%';
-                document.getElementById('collapseBar').style.height = currentStress + '%';
-
-                runWarRoom(intel[0]);
+                runDebate(intel[0]);
                 drawMap();
-                statusEl.innerText = "OVERCLOCKED: SYNCED";
-            } catch (e) { statusEl.innerText = "RESYNCING..."; }
+                statusEl.innerText = "SUB-NEURAL LINK: SYNCHRONIZED";
+            } catch (e) { statusEl.innerText = "SYNC ERROR - RETRYING..."; }
         }
 
-        async function runWarRoom(topNews) {
+        async function runDebate(news) {
             const chamber = document.getElementById('decisionChamber');
-            const systemPrompt = "You are an AI Nexus War Room. Generate a 3-way debate between TECHNOLOGIST (optimist), ECOLOGIST (cautious), and FINANCIER (profit-focused) based on the input news. Format as raw HTML divs with specific colors.";
-            
-            const debate = await callGemini(`News: ${topNews.h}. Debate the long-term impact in 3 short sentences.`, false, systemPrompt);
-            if (debate) {
+            const system = "Three extreme views on this news in 1 sentence each: THE OPTIMIST, THE NIHILIST, THE ACCELERATIONIST. Raw HTML formatting.";
+            const resp = await callGemini(`News: ${news.h}`, false, system);
+            if (resp) {
                 const el = document.createElement('div');
-                el.className = 'border-b border-white/5 pb-3 mb-3 feed-item';
-                el.innerHTML = `<div class="text-[7px] text-slate-500 mb-1 uppercase font-black">Context: ${topNews.h}</div>${debate}`;
+                el.className = 'feed-item opacity-0 border-b border-white/5 pb-4';
+                el.innerHTML = `<div class="text-[8px] text-slate-600 mb-2 uppercase font-black tracking-widest">> TRIGGER: ${news.h}</div>${resp}`;
                 chamber.prepend(el);
-                if (chamber.childNodes.length > 10) chamber.lastChild.remove();
-                document.getElementById('activeIntervention').innerText = "> NEXUS DEBATE: " + topNews.h.toUpperCase();
+                document.getElementById('activeIntervention').innerText = "> NEURAL DRIFT: " + news.h.toUpperCase();
             }
         }
 
-        async function runSimulation() {
-            const resBox = document.getElementById('simResult');
-            const auto = document.getElementById('simAuto').value;
-            const carb = document.getElementById('simCarb').value;
-            
-            resBox.innerHTML = "<div class='animate-pulse'>CALCULATING PROBABILITY VECTORS...</div>";
-            
-            const prompt = `Simulate 5 years into the future with these global settings: AI Automation ${auto}%, Carbon Tax ${carb}%. Mention one major geopolitical shift and one economic outcome. 50 words max.`;
-            const result = await callGemini(prompt, false, "You are a Planetary Simulator. Provide a cold, analytical forecast.");
-            
-            if (result) {
-                resBox.innerHTML = `<div class='text-violet-300 font-bold mb-1 uppercase'>Projection Matrix [Auto:${auto}% | Carb:${carb}%]</div>${result}`;
-            } else {
-                resBox.innerText = "Simulation failure: Sync lost.";
+        async function runInference(type) {
+            const out = document.getElementById('inferenceOutput');
+            const input = document.getElementById('aiInput').value;
+            if(!input) return;
+
+            out.innerHTML = `<div class="flex flex-col items-center justify-center h-full gap-4">
+                <div class="w-10 h-10 border-2 border-blue-500 border-t-transparent animate-spin rounded-full"></div>
+                <div class="text-[10px] mono uppercase tracking-widest text-blue-400">Processing Multimodal Request...</div>
+            </div>`;
+
+            if(type === 'text') {
+                const res = await callGemini(input, useSearch, "Synthesize a high-level response with grounding.");
+                out.innerHTML = `<div class="text-sm leading-relaxed text-slate-300 font-medium">${res || 'Request failed.'}</div>`;
+            } else if(type === 'image') {
+                try {
+                    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${apiKey}`, {
+                        method: 'POST',
+                        body: JSON.stringify({ instances: { prompt: input }, parameters: { sampleCount: 1 } })
+                    });
+                    const data = await res.json();
+                    const b64 = data.predictions?.[0]?.bytesBase64Encoded;
+                    out.innerHTML = `<img src="data:image/png;base64,${b64}" class="w-full h-full object-contain rounded-2xl shadow-2xl">`;
+                } catch(e) { out.innerHTML = "Image generation failed."; }
+            } else if(type === 'voice') {
+                out.innerHTML = "Acoustic synthesis starting...";
+                // Implement TTS logic if desired - simplified here
+                out.innerHTML = "Voice synth requires user action for PCM-WAV conversion.";
             }
         }
 
         function drawMap() {
             const svg = document.getElementById('mapCircles');
             const lines = document.getElementById('connectionLines');
-            if (!svg || !lines) return;
-            svg.innerHTML = ''; lines.innerHTML = '';
+            const thoughts = document.getElementById('thoughtOverlay');
+            if(!svg) return;
             
-            const points = [];
-            const color = currentStress > 60 ? "#f43f5e" : (currentStress < 40 ? "#10b981" : "#3b82f6");
-
-            // Define semi-realistic node clusters
-            const clusters = [
-                {x: 180, y: 120}, {x: 550, y: 100}, {x: 250, y: 300}, 
-                {x: 650, y: 200}, {x: 400, y: 150}, {x: 100, y: 150}
-            ];
+            svg.innerHTML = ''; lines.innerHTML = ''; thoughts.innerHTML = '';
+            mapPoints = [];
+            const color = currentEntropy > 0.6 ? "#f43f5e" : "#3b82f6";
+            const clusters = [{x: 180, y: 140}, {x: 580, y: 130}, {x: 280, y: 300}, {x: 650, y: 280}];
+            const bank = ["Neural Sovereign", "Post-Scarcity", "Market Entropy", "Cognitive Drift", "Edge Compute", "Resource War"];
 
             clusters.forEach(c => {
-                for(let i=0; i<4; i++) {
-                    const px = c.x + (Math.random() * 80 - 40);
-                    const py = c.y + (Math.random() * 80 - 40);
-                    points.push({x: px, y: py});
+                for(let i=0; i<6; i++) {
+                    const px = c.x + (Math.random() * 120 - 60);
+                    const py = c.y + (Math.random() * 120 - 60);
+                    mapPoints.push({x: px, y: py});
                     
-                    // Main point
                     const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                    dot.setAttribute("cx", px); dot.setAttribute("cy", py); dot.setAttribute("r", 1.5);
+                    dot.setAttribute("cx", px); dot.setAttribute("cy", py); dot.setAttribute("r", 2);
                     dot.setAttribute("fill", color);
                     svg.appendChild(dot);
 
-                    // Glow pulse
-                    const pulse = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                    pulse.setAttribute("cx", px); pulse.setAttribute("cy", py); pulse.setAttribute("r", 3);
-                    pulse.setAttribute("fill", color);
-                    pulse.setAttribute("class", "node-pulse");
-                    svg.appendChild(pulse);
+                    const p = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                    p.setAttribute("cx", px); p.setAttribute("cy", py); p.setAttribute("r", 4);
+                    p.setAttribute("fill", color); p.setAttribute("class", "node-pulse");
+                    svg.appendChild(p);
                 }
             });
 
-            // Connect nearby points
-            points.forEach((p, i) => {
-                points.slice(i+1).forEach(p2 => {
+            mapPoints.forEach((p, i) => {
+                mapPoints.slice(i+1).forEach(p2 => {
                     const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if (dist < 60) {
+                    if (dist < 80) {
                         const l = document.createElementNS("http://www.w3.org/2000/svg", "line");
                         l.setAttribute("x1", p.x); l.setAttribute("y1", p.y);
                         l.setAttribute("x2", p2.x); l.setAttribute("y2", p2.y);
                         l.setAttribute("stroke", color);
-                        l.setAttribute("opacity", (1 - dist/60) * 0.3);
+                        l.setAttribute("opacity", (1 - dist/80) * 0.25);
                         lines.appendChild(l);
                     }
                 });
             });
+
+            for(let i=0; i<4; i++) {
+                const target = mapPoints[Math.floor(Math.random()*mapPoints.length)];
+                const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text.setAttribute("x", target.x + 10);
+                text.setAttribute("y", target.y);
+                text.setAttribute("fill", "white");
+                text.setAttribute("font-size", "8px");
+                text.setAttribute("class", "mono uppercase tracking-widest opacity-50 thought-float");
+                text.textContent = bank[Math.floor(Math.random()*bank.length)];
+                thoughts.appendChild(text);
+            }
+        }
+
+        function startClock() {
+            let s = 0;
+            setInterval(() => {
+                s++;
+                const hrs = Math.floor(s/3600).toString().padStart(2, '0');
+                const min = Math.floor((s%3600)/60).toString().padStart(2, '0');
+                const sec = (s%60).toString().padStart(2, '0');
+                const ms = Math.floor(Math.random()*99).toString().padStart(2, '0');
+                document.getElementById('runtimeClock').innerText = `00:${hrs}:${min}:${sec}:${ms}`;
+            }, 100);
         }
 
         window.onload = () => {
-            const ctx = document.getElementById('timelineChart').getContext('2d');
+            startClock();
+            const ctx = document.getElementById('latencyChart').getContext('2d');
             const chart = new Chart(ctx, {
                 type: 'line',
-                data: { labels: Array(20).fill(''), datasets: [{ data: Array(20).fill(50), borderColor: '#8b5cf6', borderWidth: 1, pointRadius: 0, tension: 0.4 }] },
+                data: { labels: Array(20).fill(''), datasets: [{ data: Array(20).fill(50), borderColor: '#8b5cf6', borderWidth: 2, pointRadius: 0, fill: true, backgroundColor: 'rgba(139, 92, 246, 0.05)', tension: 0.4 }] },
                 options: { responsive: true, maintainAspectRatio: false, animation: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false, min: 0, max: 100 } } }
             });
-            
             setInterval(() => {
-                const nextVal = Math.max(0, Math.min(100, (100 - currentStress) + (Math.random() * 10 - 5)));
-                chart.data.datasets[0].data.push(nextVal);
+                chart.data.datasets[0].data.push(40 + Math.random()*20);
                 chart.data.datasets[0].data.shift();
                 chart.update('none');
             }, 1000);
 
-            // Immediate initial draw for map
-            drawMap();
             updateLiveIntel();
-            setInterval(updateLiveIntel, 25000); 
+            setInterval(updateLiveIntel, 60000);
         };
     </script>
 </body>
