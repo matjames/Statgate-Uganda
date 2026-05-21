@@ -3,31 +3,33 @@
 <head>
 
     <!-- =========================================================
-        JAMES MATOVU — ELITE PROFESSIONAL PORTFOLIO
-        Designed for GitHub Pages Deployment
-        Author: James Matovu
+        JAMES MATOVU — ELITE HEALTH INTELLIGENCE PORTFOLIO
+        GitHub Pages Ready
     ========================================================== -->
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <title>
-        James Matovu | Data Systems Architect & Health Informatics Specialist
+        James Matovu | Health Intelligence Systems Architect
     </title>
 
     <!-- =========================================================
-        TAILWIND CSS
+        TAILWIND
     ========================================================== -->
 
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- =========================================================
-        GOOGLE FONTS
+        FONTS
     ========================================================== -->
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+    >
 
     <!-- =========================================================
         ICONS
@@ -36,7 +38,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- =========================================================
-        CHART JS
+        CHART.JS
     ========================================================== -->
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -51,7 +53,7 @@
             margin:0;
             padding:0;
             box-sizing:border-box;
-            font-family:'Inter', sans-serif;
+            font-family:'Inter',sans-serif;
         }
 
         html{
@@ -65,7 +67,7 @@
         }
 
         /* ======================================================
-            BACKGROUND GRID
+            GRID BACKGROUND
         ====================================================== */
 
         .grid-bg{
@@ -77,29 +79,29 @@
         }
 
         /* ======================================================
-            GLASS EFFECT
+            GLASS
         ====================================================== */
 
         .glass{
             background:rgba(15,23,42,0.6);
-            backdrop-filter:blur(12px);
+            backdrop-filter:blur(14px);
             border:1px solid rgba(255,255,255,0.06);
         }
 
         /* ======================================================
-            GLOW EFFECTS
+            GLOW
         ====================================================== */
 
         .emerald-glow{
-            box-shadow:0 0 80px rgba(16,185,129,0.15);
+            box-shadow:0 0 80px rgba(16,185,129,0.18);
         }
 
         .cyan-glow{
-            box-shadow:0 0 80px rgba(6,182,212,0.12);
+            box-shadow:0 0 80px rgba(6,182,212,0.14);
         }
 
         /* ======================================================
-            GRADIENT TEXT
+            TEXT GRADIENT
         ====================================================== */
 
         .gradient-text{
@@ -109,7 +111,7 @@
         }
 
         /* ======================================================
-            FLOATING ANIMATION
+            FLOATING
         ====================================================== */
 
         @keyframes floating{
@@ -117,7 +119,7 @@
                 transform:translateY(0px);
             }
             50%{
-                transform:translateY(-12px);
+                transform:translateY(-14px);
             }
             100%{
                 transform:translateY(0px);
@@ -129,7 +131,7 @@
         }
 
         /* ======================================================
-            FADE ANIMATION
+            FADE UP
         ====================================================== */
 
         .fade-up{
@@ -144,7 +146,7 @@
         }
 
         /* ======================================================
-            CUSTOM SCROLLBAR
+            SCROLLBAR
         ====================================================== */
 
         ::-webkit-scrollbar{
@@ -161,7 +163,7 @@
         }
 
         /* ======================================================
-            NAVBAR LINK
+            NAV LINK
         ====================================================== */
 
         .nav-link{
@@ -184,7 +186,7 @@
         }
 
         /* ======================================================
-            HERO BLUR CIRCLES
+            BLUR CIRCLES
         ====================================================== */
 
         .blur-circle{
@@ -194,11 +196,81 @@
             z-index:0;
         }
 
+        /* ======================================================
+            TICKER
+        ====================================================== */
+
+        @keyframes scroll{
+            0%{
+                transform:translateX(0%);
+            }
+
+            100%{
+                transform:translateX(-50%);
+            }
+        }
+
+        .ticker{
+            animation:scroll 25s linear infinite;
+        }
+
+        /* ======================================================
+            LOADER
+        ====================================================== */
+
+        #loader{
+            transition:0.6s ease;
+        }
+
     </style>
 
 </head>
 
 <body class="grid-bg">
+
+<!-- =========================================================
+    GLOBAL MAP
+========================================================== -->
+
+<div
+    class="fixed inset-0 opacity-[0.03] pointer-events-none z-0"
+    style="
+        background:url('https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg');
+        background-size:cover;
+        background-position:center;
+    "
+></div>
+
+<!-- =========================================================
+    LOADER
+========================================================== -->
+
+<div
+    id="loader"
+    class="fixed inset-0 bg-slate-950 z-[99999] flex items-center justify-center overflow-hidden"
+>
+
+    <div class="text-center">
+
+        <div class="w-24 h-24 border border-emerald-500/20 rounded-full flex items-center justify-center mx-auto relative">
+
+            <div class="absolute inset-0 rounded-full border-t-2 border-emerald-400 animate-spin"></div>
+
+            <i data-lucide="database" class="w-10 h-10 text-emerald-400"></i>
+
+        </div>
+
+        <h2 class="mt-10 text-2xl font-black tracking-[0.25em]">
+            INITIALIZING SYSTEMS
+        </h2>
+
+        <p class="text-slate-500 mt-4">
+            Health Intelligence Infrastructure Loading...
+        </p>
+
+    </div>
+
+</div>
 
 <!-- =========================================================
     NAVIGATION
@@ -208,15 +280,11 @@
 
     <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
 
-        <!-- LOGO -->
-
         <div>
             <h1 class="text-xl md:text-2xl font-black tracking-[0.25em]">
                 JAMES MATOVU
             </h1>
         </div>
-
-        <!-- MENU -->
 
         <div class="hidden md:flex items-center gap-10 text-sm font-medium">
 
@@ -240,8 +308,8 @@
                 Projects
             </a>
 
-            <a href="#certifications" class="nav-link hover:text-emerald-400 transition">
-                Credentials
+            <a href="#timeline" class="nav-link hover:text-emerald-400 transition">
+                Timeline
             </a>
 
             <a href="#contact" class="nav-link hover:text-emerald-400 transition">
@@ -255,7 +323,7 @@
 </nav>
 
 <!-- =========================================================
-    HERO SECTION
+    HERO
 ========================================================== -->
 
 <section
@@ -263,35 +331,25 @@
     class="min-h-screen flex items-center relative overflow-hidden pt-24"
 >
 
-    <!-- Background Effects -->
-
     <div class="blur-circle bg-emerald-500/10 w-[450px] h-[450px] top-[-120px] left-[-120px]"></div>
 
     <div class="blur-circle bg-cyan-500/10 w-[500px] h-[500px] bottom-[-120px] right-[-120px]"></div>
 
-    <!-- Main Container -->
-
     <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center relative z-10">
 
-        <!-- ==================================================
-            LEFT CONTENT
-        =================================================== -->
+        <!-- LEFT -->
 
         <div class="space-y-8 fade-up">
-
-            <!-- STATUS -->
 
             <div class="inline-flex items-center gap-3 glass px-5 py-3 rounded-full">
 
                 <span class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></span>
 
                 <span class="text-sm text-slate-300">
-                    Available for Data Systems & Research Collaborations
+                    Available for National Health Intelligence Projects
                 </span>
 
             </div>
-
-            <!-- TITLE -->
 
             <div class="space-y-8">
 
@@ -302,7 +360,7 @@
                         Health Intelligence
                     </span>
 
-                    Systems for National Impact
+                    Infrastructure for National Impact
 
                 </h1>
 
@@ -310,13 +368,11 @@
 
                     Statistician, Database Administrator, and Health Informatics Specialist
                     focused on transforming fragmented health data into scalable intelligence systems
-                    for research, surveillance, and national decision-making.
+                    for surveillance, research, and national decision-making.
 
                 </p>
 
             </div>
-
-            <!-- BUTTONS -->
 
             <div class="flex flex-wrap gap-5">
 
@@ -380,15 +436,11 @@
 
         </div>
 
-        <!-- ==================================================
-            RIGHT CONTENT
-        =================================================== -->
+        <!-- RIGHT -->
 
         <div class="relative flex justify-center fade-up">
 
             <div class="relative floating">
-
-                <!-- MAIN IMAGE -->
 
                 <div class="w-[420px] h-[550px] rounded-[40px] overflow-hidden glass emerald-glow">
 
@@ -399,8 +451,6 @@
                     >
 
                 </div>
-
-                <!-- FLOATING INFO CARD -->
 
                 <div class="absolute -left-12 top-12 glass rounded-2xl p-5 cyan-glow">
 
@@ -414,8 +464,6 @@
 
                 </div>
 
-                <!-- FLOATING INFO CARD -->
-
                 <div class="absolute -right-12 bottom-12 glass rounded-2xl p-5 emerald-glow">
 
                     <p class="text-xs text-slate-400">
@@ -423,7 +471,7 @@
                     </p>
 
                     <h3 class="font-bold mt-2">
-                        Health Data Systems
+                        Health Intelligence
                     </h3>
 
                 </div>
@@ -437,7 +485,80 @@
 </section>
 
 <!-- =========================================================
-    ABOUT SECTION
+    TICKER
+========================================================== -->
+
+<div class="overflow-hidden border-y border-slate-800 py-5">
+
+    <div class="flex gap-16 whitespace-nowrap ticker text-slate-400 font-semibold">
+
+        <span>Health Intelligence Systems</span>
+        <span>Research Analytics</span>
+        <span>ETL Pipeline Engineering</span>
+        <span>Disease Surveillance</span>
+        <span>Statistical Modeling</span>
+        <span>Public Health Informatics</span>
+        <span>Database Optimization</span>
+        <span>Research Intelligence</span>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+    TERMINAL
+========================================================== -->
+
+<section class="py-20">
+
+    <div class="max-w-6xl mx-auto px-6">
+
+        <div class="glass rounded-3xl overflow-hidden">
+
+            <div class="bg-slate-900 px-6 py-4 border-b border-slate-800 flex items-center gap-3">
+
+                <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                <div class="w-3 h-3 rounded-full bg-green-400"></div>
+
+                <p class="ml-4 text-sm text-slate-400">
+                    national_health_intelligence.sh
+                </p>
+
+            </div>
+
+            <div class="p-8 font-mono text-sm space-y-4">
+
+                <p class="text-emerald-400">
+                    ✔ Initializing ETL Pipelines...
+                </p>
+
+                <p class="text-cyan-400">
+                    ✔ Validating District-Level Datasets...
+                </p>
+
+                <p class="text-emerald-400">
+                    ✔ Surveillance Infrastructure Connected...
+                </p>
+
+                <p class="text-cyan-400">
+                    ✔ Data Integrity Status: 98.4%
+                </p>
+
+                <p class="text-white">
+                    > Health Intelligence Systems Operational
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================================
+    ABOUT
 ========================================================== -->
 
 <section id="about" class="py-32">
@@ -446,48 +567,42 @@
 
         <div class="grid lg:grid-cols-2 gap-20 items-center">
 
-            <!-- LEFT -->
-
             <div class="fade-up">
 
                 <p class="text-emerald-400 uppercase tracking-[0.2em] font-semibold">
-                    About Me
+                    Executive Profile
                 </p>
 
                 <h2 class="text-5xl font-black mt-5 leading-tight">
 
-                    Transforming Data Into
-                    Actionable Intelligence
+                    Transforming Health Data Into
+                    Strategic Intelligence
 
                 </h2>
 
             </div>
 
-            <!-- RIGHT -->
-
             <div class="space-y-8 fade-up">
 
                 <p class="text-lg text-slate-400 leading-relaxed">
 
-                    I am a Statistics graduate with strong expertise in
-                    health informatics, database administration, field data systems,
-                    research analytics, and public health surveillance.
-
-                    My professional work spans national-level health data cleaning,
-                    outbreak response systems, ODK architecture, ETL pipeline optimization,
-                    DHIS2 systems administration, and advanced statistical analysis.
+                    Analytical and highly disciplined Statistician specializing in
+                    health informatics, database administration,
+                    automated validation systems, ETL optimization,
+                    disease surveillance systems, and public health intelligence infrastructure.
 
                 </p>
 
                 <p class="text-lg text-slate-400 leading-relaxed">
 
-                    I specialize in building reliable data infrastructures that support
-                    evidence-based decision-making, research intelligence,
-                    and scalable health reporting systems.
+                    My professional work spans national-level data cleaning,
+                    outbreak response systems,
+                    ODK architecture,
+                    research coordination,
+                    and scalable reporting infrastructures
+                    supporting evidence-based decision-making.
 
                 </p>
-
-                <!-- STATS -->
 
                 <div class="grid md:grid-cols-2 gap-6">
 
@@ -506,7 +621,7 @@
                     <div class="glass rounded-3xl p-6">
 
                         <h3 class="text-2xl font-bold">
-                            Research Focus
+                            Focus Area
                         </h3>
 
                         <p class="text-slate-400 mt-3">
@@ -526,14 +641,60 @@
 </section>
 
 <!-- =========================================================
-    SKILLS SECTION
+    DASHBOARD
 ========================================================== -->
 
-<section id="skills" class="py-32 bg-slate-950/40">
+<section class="py-32 bg-slate-950/40">
 
     <div class="max-w-7xl mx-auto px-6">
 
-        <!-- HEADER -->
+        <div class="text-center fade-up">
+
+            <p class="text-emerald-400 uppercase tracking-[0.2em] font-semibold">
+                Operational Intelligence
+            </p>
+
+            <h2 class="text-5xl font-black mt-5">
+                National Systems Dashboard
+            </h2>
+
+        </div>
+
+        <div class="grid lg:grid-cols-4 gap-8 mt-20">
+
+            <div class="glass rounded-3xl p-8 text-center">
+                <h3 class="text-6xl font-black text-emerald-400">136</h3>
+                <p class="text-slate-400 mt-4">Districts Integrated</p>
+            </div>
+
+            <div class="glass rounded-3xl p-8 text-center">
+                <h3 class="text-6xl font-black text-cyan-400">3.5K+</h3>
+                <p class="text-slate-400 mt-4">Records Validated</p>
+            </div>
+
+            <div class="glass rounded-3xl p-8 text-center">
+                <h3 class="text-6xl font-black text-emerald-400">98%</h3>
+                <p class="text-slate-400 mt-4">Integrity Score</p>
+            </div>
+
+            <div class="glass rounded-3xl p-8 text-center">
+                <h3 class="text-6xl font-black text-cyan-400">LIVE</h3>
+                <p class="text-slate-400 mt-4">Surveillance Systems</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================================
+    SKILLS
+========================================================== -->
+
+<section id="skills" class="py-32">
+
+    <div class="max-w-7xl mx-auto px-6">
 
         <div class="text-center max-w-3xl mx-auto fade-up">
 
@@ -547,11 +708,7 @@
 
         </div>
 
-        <!-- GRID -->
-
         <div class="grid lg:grid-cols-3 gap-8 mt-20">
-
-            <!-- CARD -->
 
             <div class="glass rounded-3xl p-8 fade-up">
 
@@ -565,44 +722,15 @@
 
                 <div class="mt-8 space-y-5">
 
-                    <div>
-                        <div class="flex justify-between text-sm mb-2">
-                            <span>SQL</span>
-                            <span>95%</span>
-                        </div>
-
-                        <div class="w-full h-2 bg-slate-800 rounded-full">
-                            <div class="w-[95%] h-full bg-emerald-400 rounded-full"></div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="flex justify-between text-sm mb-2">
-                            <span>ETL Pipelines</span>
-                            <span>92%</span>
-                        </div>
-
-                        <div class="w-full h-2 bg-slate-800 rounded-full">
-                            <div class="w-[92%] h-full bg-cyan-400 rounded-full"></div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="flex justify-between text-sm mb-2">
-                            <span>PostgreSQL</span>
-                            <span>88%</span>
-                        </div>
-
-                        <div class="w-full h-2 bg-slate-800 rounded-full">
-                            <div class="w-[88%] h-full bg-emerald-400 rounded-full"></div>
-                        </div>
-                    </div>
+                    <p>SQL</p>
+                    <p>ETL Pipelines</p>
+                    <p>PostgreSQL</p>
+                    <p>Data Warehousing</p>
+                    <p>Validation Systems</p>
 
                 </div>
 
             </div>
-
-            <!-- CARD -->
 
             <div class="glass rounded-3xl p-8 fade-up">
 
@@ -614,25 +742,17 @@
                     Health Informatics
                 </h3>
 
-                <div class="mt-8 space-y-5 text-slate-300">
+                <div class="mt-8 space-y-5">
 
                     <p>DHIS2 Administration</p>
-
                     <p>ODK / Kobo Toolbox</p>
-
-                    <p>REDCap Architecture</p>
-
-                    <p>Health Surveillance Systems</p>
-
-                    <p>Research Data Management</p>
-
-                    <p>Outbreak Intelligence Systems</p>
+                    <p>REDCap Systems</p>
+                    <p>Outbreak Surveillance</p>
+                    <p>Health Reporting Systems</p>
 
                 </div>
 
             </div>
-
-            <!-- CARD -->
 
             <div class="glass rounded-3xl p-8 fade-up">
 
@@ -644,19 +764,13 @@
                     Analytics & Research
                 </h3>
 
-                <div class="mt-8 space-y-5 text-slate-300">
+                <div class="mt-8 space-y-5">
 
                     <p>Python (Pandas)</p>
-
                     <p>R Programming</p>
-
                     <p>STATA</p>
-
                     <p>Data Visualization</p>
-
                     <p>Statistical Modeling</p>
-
-                    <p>Research Reporting</p>
 
                 </div>
 
@@ -669,88 +783,65 @@
 </section>
 
 <!-- =========================================================
-    IMPACT SECTION
+    TIMELINE
 ========================================================== -->
 
-<section id="impact" class="py-32">
+<section id="timeline" class="py-32 bg-slate-950/40">
 
-    <div class="max-w-7xl mx-auto px-6">
+    <div class="max-w-5xl mx-auto px-6">
 
-        <!-- HEADER -->
-
-        <div class="fade-up">
+        <div class="text-center fade-up">
 
             <p class="text-emerald-400 uppercase tracking-[0.2em] font-semibold">
-                National Impact
+                Professional Timeline
             </p>
 
             <h2 class="text-5xl font-black mt-5">
-                Public Health & Research Contributions
+                Career Journey
             </h2>
 
         </div>
 
-        <!-- TIMELINE -->
+        <div class="mt-20 border-l border-slate-700 pl-10 space-y-16">
 
-        <div class="mt-20 space-y-10">
+            <div class="relative fade-up">
 
-            <!-- ITEM -->
+                <div class="absolute -left-[46px] w-5 h-5 rounded-full bg-emerald-400"></div>
 
-            <div class="glass rounded-3xl p-8 border-l-4 border-emerald-400 fade-up">
+                <p class="text-sm text-slate-500">
+                    2025 — Present
+                </p>
 
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+                <h3 class="text-3xl font-bold mt-3">
+                    Health Data Systems Specialist
+                </h3>
 
-                    <div>
-
-                        <h3 class="text-3xl font-bold">
-                            Ministry of Health — Data Backlog Resolution
-                        </h3>
-
-                        <p class="text-slate-400 mt-4 leading-relaxed max-w-4xl">
-
-                            Led large-scale health data optimization processes,
-                            improving longitudinal record consistency and supporting
-                            national health reporting systems across 136 districts.
-
-                        </p>
-
-                    </div>
-
-                    <div class="text-5xl font-black text-emerald-400">
-                        136
-                    </div>
-
-                </div>
+                <p class="text-slate-400 mt-4 leading-relaxed">
+                    Supporting national-scale health intelligence systems,
+                    surveillance workflows,
+                    and advanced reporting infrastructures.
+                </p>
 
             </div>
 
-            <!-- ITEM -->
+            <div class="relative fade-up">
 
-            <div class="glass rounded-3xl p-8 border-l-4 border-cyan-400 fade-up">
+                <div class="absolute -left-[46px] w-5 h-5 rounded-full bg-cyan-400"></div>
 
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+                <p class="text-sm text-slate-500">
+                    2022 — 2025
+                </p>
 
-                    <div>
+                <h3 class="text-3xl font-bold mt-3">
+                    Bachelor of Science in Statistics
+                </h3>
 
-                        <h3 class="text-3xl font-bold">
-                            Africa CDC — Mpox Response Systems
-                        </h3>
-
-                        <p class="text-slate-400 mt-4 leading-relaxed max-w-4xl">
-
-                            Supported outbreak response intelligence by designing
-                            ODK-based field reporting systems for rapid transmission
-                            mapping and surveillance in high-risk regions.
-
-                        </p>
-
-                    </div>
-
-                    <div class="text-5xl font-black text-cyan-400">
-                        ODK
-                    </div>
-
-                </div>
+                <p class="text-slate-400 mt-4 leading-relaxed">
+                    Specialized in research systems,
+                    health informatics,
+                    database administration,
+                    and analytical intelligence systems.
+                </p>
 
             </div>
 
@@ -761,14 +852,12 @@
 </section>
 
 <!-- =========================================================
-    PROJECTS SECTION
+    PROJECTS
 ========================================================== -->
 
-<section id="projects" class="py-32 bg-slate-950/40">
+<section id="projects" class="py-32">
 
     <div class="max-w-7xl mx-auto px-6">
-
-        <!-- HEADER -->
 
         <div class="text-center fade-up">
 
@@ -777,16 +866,12 @@
             </p>
 
             <h2 class="text-5xl font-black mt-5">
-                Case Studies & System Design
+                Case Studies & Intelligence Systems
             </h2>
 
         </div>
 
-        <!-- GRID -->
-
         <div class="grid lg:grid-cols-2 gap-10 mt-20">
-
-            <!-- PROJECT -->
 
             <div class="glass rounded-3xl overflow-hidden fade-up">
 
@@ -804,17 +889,16 @@
 
                     <p class="text-slate-400 mt-5 leading-relaxed">
 
-                        Designed and managed outbreak surveillance architecture
-                        using ODK systems to support rapid field reporting,
-                        transmission monitoring, and public health intelligence workflows.
+                        Designed outbreak surveillance architecture using ODK systems
+                        to support rapid field reporting,
+                        transmission mapping,
+                        and public health intelligence workflows.
 
                     </p>
 
                 </div>
 
             </div>
-
-            <!-- PROJECT -->
 
             <div class="glass rounded-3xl overflow-hidden fade-up">
 
@@ -833,8 +917,9 @@
                     <p class="text-slate-400 mt-5 leading-relaxed">
 
                         Improved national-level reporting integrity through
-                        data restructuring, ETL optimization, and advanced
-                        record validation workflows.
+                        ETL optimization,
+                        validation workflows,
+                        and advanced record restructuring systems.
 
                     </p>
 
@@ -849,21 +934,21 @@
 </section>
 
 <!-- =========================================================
-    CHART SECTION
+    CHART
 ========================================================== -->
 
-<section class="py-32">
+<section class="py-32 bg-slate-950/40">
 
     <div class="max-w-5xl mx-auto px-6">
 
         <div class="text-center fade-up">
 
             <p class="text-emerald-400 uppercase tracking-[0.2em] font-semibold">
-                Professional Capability
+                Skills Intelligence
             </p>
 
             <h2 class="text-5xl font-black mt-5">
-                Skills Intelligence Matrix
+                Capability Matrix
             </h2>
 
         </div>
@@ -879,62 +964,34 @@
 </section>
 
 <!-- =========================================================
-    CERTIFICATIONS
+    PHILOSOPHY
 ========================================================== -->
 
-<section id="certifications" class="py-32 bg-slate-950/40">
+<section class="py-32">
 
-    <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-5xl mx-auto px-6 text-center">
 
-        <div class="text-center fade-up">
+        <div class="fade-up">
 
             <p class="text-emerald-400 uppercase tracking-[0.2em] font-semibold">
-                Verified Credentials
+                Philosophy
             </p>
 
-            <h2 class="text-5xl font-black mt-5">
-                Certifications & Professional Training
+            <h2 class="text-5xl font-black mt-5 leading-tight">
+
+                Data Should Not Simply Be Collected —
+                It Should Become Intelligence.
+
             </h2>
 
-        </div>
+            <p class="text-xl text-slate-400 leading-relaxed mt-10 max-w-4xl mx-auto">
 
-        <div class="grid md:grid-cols-2 gap-8 mt-20">
+                I believe scalable health intelligence systems can strengthen
+                evidence-based decision-making,
+                improve surveillance responsiveness,
+                and support resilient public health infrastructures across Africa.
 
-            <!-- CERT -->
-
-            <div class="glass rounded-3xl p-8 fade-up">
-
-                <h3 class="text-2xl font-bold">
-                    NIH Good Clinical Practice (GCP)
-                </h3>
-
-                <p class="text-slate-400 mt-4">
-                    NIDA Clinical Trials Network
-                </p>
-
-                <p class="text-emerald-400 mt-6 font-semibold">
-                    Valid Until August 2028
-                </p>
-
-            </div>
-
-            <!-- CERT -->
-
-            <div class="glass rounded-3xl p-8 fade-up">
-
-                <h3 class="text-2xl font-bold">
-                    DHIS2 Academy Expert
-                </h3>
-
-                <p class="text-slate-400 mt-4">
-                    University of Oslo
-                </p>
-
-                <p class="text-cyan-400 mt-6 font-semibold">
-                    Aggregate & Event Data Systems
-                </p>
-
-            </div>
+            </p>
 
         </div>
 
@@ -943,10 +1000,10 @@
 </section>
 
 <!-- =========================================================
-    CONTACT SECTION
+    CONTACT
 ========================================================== -->
 
-<section id="contact" class="py-32">
+<section id="contact" class="py-32 bg-slate-950/40">
 
     <div class="max-w-5xl mx-auto px-6 text-center">
 
@@ -963,12 +1020,12 @@
             <p class="text-slate-400 text-lg mt-8 max-w-2xl mx-auto">
 
                 Open to collaborations in health informatics,
-                data engineering, statistical analysis,
-                research systems, and public health intelligence.
+                research analytics,
+                statistical systems,
+                ETL engineering,
+                and national surveillance infrastructure.
 
             </p>
-
-            <!-- BUTTONS -->
 
             <div class="flex flex-wrap justify-center gap-6 mt-12">
 
@@ -1007,9 +1064,61 @@
     FOOTER
 ========================================================== -->
 
-<footer class="border-t border-slate-800 py-10 text-center text-slate-500 text-sm">
+<footer class="border-t border-slate-800 py-16">
 
-    © 2026 James Matovu — Data Systems & Health Informatics Portfolio
+    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-12">
+
+        <div>
+
+            <h3 class="text-2xl font-black">
+                JAMES MATOVU
+            </h3>
+
+            <p class="text-slate-500 mt-5 leading-relaxed">
+
+                Data Systems Architect specializing in
+                health intelligence infrastructure,
+                surveillance systems,
+                and research analytics.
+
+            </p>
+
+        </div>
+
+        <div>
+
+            <h4 class="font-bold text-lg">
+                Navigation
+            </h4>
+
+            <div class="flex flex-col gap-4 mt-5 text-slate-400">
+
+                <a href="#about">About</a>
+                <a href="#skills">Expertise</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+
+            </div>
+
+        </div>
+
+        <div>
+
+            <h4 class="font-bold text-lg">
+                Connect
+            </h4>
+
+            <div class="flex flex-col gap-4 mt-5 text-slate-400">
+
+                <a href="#">GitHub</a>
+                <a href="#">LinkedIn</a>
+                <a href="#">Email</a>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </footer>
 
@@ -1026,7 +1135,25 @@
     lucide.createIcons();
 
     // ======================================================
-    // INTERSECTION OBSERVER
+    // LOADER
+    // ======================================================
+
+    window.addEventListener('load', () => {
+
+        setTimeout(() => {
+
+            document.getElementById('loader').style.opacity = '0';
+
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+            }, 600);
+
+        }, 1800);
+
+    });
+
+    // ======================================================
+    // FADE-UP OBSERVER
     // ======================================================
 
     const observer = new IntersectionObserver(entries => {
@@ -1046,7 +1173,7 @@
     });
 
     // ======================================================
-    // RADAR CHART
+    // CHART
     // ======================================================
 
     const ctx = document.getElementById('skillsChart');
