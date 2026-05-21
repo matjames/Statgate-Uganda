@@ -3,385 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StatGate Uganda | Institutional Data & Field Solutions</title>
+    <title>James Matovu | Professional Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --navy: #051937;
-            --gold: #ffcc00;
-        }
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
-        .font-brand { font-family: 'Montserrat', sans-serif; }
-        .font-code { font-family: 'Fira Code', monospace; }
-        
-        .bg-navy { background-color: var(--navy); }
-        .text-gold { color: var(--gold); }
-        .bg-gold { background-color: var(--gold); }
-        
-        .grid-bg {
-            background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
-            background-size: 30px 30px;
-        }
-
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .map-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--gold);
-            border-radius: 50%;
-            position: absolute;
-            box-shadow: 0 0 10px var(--gold);
-            animation: pulse-dot 2s infinite;
-        }
-
-        @keyframes pulse-dot {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(2.5); opacity: 0; }
-            100% { transform: scale(1); opacity: 0; }
-        }
-
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(5, 25, 55, 0.95);
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        .modal-overlay.active { display: flex; }
-
-        .btn-primary {
-            background: var(--gold);
-            color: var(--navy);
-            font-weight: 800;
-            padding: 1rem 2rem;
-            border-radius: 0.75rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.875rem;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(255, 204, 0, 0.3);
-        }
-
-        .logo-box {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 2px solid transparent;
-        }
-        .logo-container:hover .logo-box {
-            border-color: var(--gold);
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255, 204, 0, 0.2);
-        }
-
-        .chart-line {
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-            animation: draw 3s forwards ease-in-out;
-        }
-
-        @keyframes draw {
-            to { stroke-dashoffset: 0; }
-        }
-
-        .data-stream::-webkit-scrollbar { width: 0; }
-    </style>
 </head>
-<body class="bg-[#020b1a] text-white">
+<body class="min-h-screen bg-slate-950 text-slate-200">
 
-    <!-- Universal Modal System -->
-    <div id="portalModal" class="modal-overlay">
-        <div class="glass-panel p-10 rounded-[3rem] border-gold/20 max-w-2xl w-full relative my-8">
-            <button onclick="closeModal()" class="absolute top-8 right-8 text-slate-500 hover:text-gold uppercase font-black text-xs tracking-widest transition">Close [x]</button>
-            
-            <div id="modalContent">
-                <h3 id="modalTitle" class="font-brand text-3xl font-black text-gold mb-4 uppercase">Portal Access</h3>
-                <p id="modalDesc" class="text-slate-400 mb-8 text-sm leading-relaxed">Secure gateway for authorized StatGate Uganda partners.</p>
-                
-                <div id="modalForm" class="space-y-4">
-                    <input type="email" placeholder="Institutional Email" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-gold">
-                    <input type="password" placeholder="Access Token" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-gold">
-                    <button class="w-full btn-primary">Authenticate Access</button>
-                </div>
-
-                <div id="modalInfo" class="hidden space-y-6 text-slate-300 text-sm leading-relaxed"></div>
-            </div>
-            <p class="mt-8 text-[9px] text-center text-slate-600 uppercase tracking-[0.3em] font-bold">StatGate Uganda Institutional Protocols</p>
-        </div>
-    </div>
-
-    <!-- Global Navigation -->
-    <nav class="fixed w-full z-[100] border-b border-white/5 glass-panel">
-        <div class="max-w-[1440px] mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="flex items-center gap-4 group logo-container">
-                <div class="logo-box w-12 h-12 bg-white rounded-xl overflow-hidden shadow-lg relative">
-                    <img src="https://lh3.googleusercontent.com/a/ACg8ocJ0q-5HDm-Ydlk1tsbNDCvdsA4MW7_nhaeOx3xOyukRtTh2QfLlJw=s288-c-no" alt="StatGate Logo" class="w-full h-full object-cover">
-                    <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
-                </div>
-                <div>
-                    <div class="font-brand font-black text-xl tracking-tighter leading-none uppercase">
-                        Stat<span class="text-gold">Gate</span>
-                    </div>
-                    <div class="text-[7px] font-black tracking-[0.5em] text-gold/60 uppercase mt-1">Uganda Research Firm</div>
-                </div>
-            </a>
-            
-            <div class="hidden lg:flex gap-8 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                <a href="#services" class="hover:text-gold transition">Capability Statement</a>
-                <a href="#operational-grid" class="hover:text-gold transition">Live Operations</a>
-                <a href="#network" class="hover:text-gold transition">Field Force</a>
-                <a href="#tenders" class="hover:text-gold transition">Tender Desk</a>
-            </div>
-
-            <div class="flex gap-4">
-                <button onclick="openModal('Client Portal', 'Institutional dashboard for tracking project progress.', true)" class="bg-gold text-navy text-[10px] font-black uppercase px-6 py-2 rounded-lg hover:bg-white transition-colors">Client Portal</button>
+    <nav class="border-b border-slate-800 bg-slate-950/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-white tracking-widest">JAMES MATOVU</h1>
+            <div class="hidden md:flex gap-6" id="nav-menu">
+                <button onclick="showSection('home')" class="text-xs uppercase tracking-wider">Home</button>
+                <button onclick="showSection('expertise')" class="text-xs uppercase tracking-wider">Expertise</button>
+                <button onclick="showSection('initiatives')" class="text-xs uppercase tracking-wider">Initiatives</button>
+                <button onclick="showSection('codesamples')" class="text-xs uppercase tracking-wider">Code & Data</button>
+                <button onclick="showSection('certifications')" class="text-xs uppercase tracking-wider">Certifications</button>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="relative pt-40 pb-32 px-6 overflow-hidden">
-        <div class="absolute inset-0 grid-bg"></div>
-        <div class="max-w-[1440px] mx-auto grid lg:grid-cols-2 gap-20 relative z-10">
-            <div>
-                <div class="inline-flex items-center gap-3 px-4 py-2 bg-gold/10 border border-gold/20 rounded-full mb-8">
-                    <span class="flex h-2 w-2 rounded-full bg-gold animate-ping"></span>
-                    <span class="text-[10px] font-black uppercase tracking-widest text-gold">System Integrity Verified</span>
-                </div>
-                <h1 class="font-brand text-6xl lg:text-8xl font-black mb-8 leading-[0.85] tracking-tighter text-white">
-                    Turning <br><span class="text-gold italic text-7xl lg:text-9xl">Entropy</span> <br>Into Insight.
-                </h1>
-                <p class="text-xl text-slate-400 mb-12 max-w-xl font-light leading-relaxed">
-                    StatGate Uganda provides the technical infrastructure for Government Ministries and NGOs to collect, mine, and analyze complex field data at scale.
-                </p>
-                <div class="flex gap-4">
-                    <a href="#services" class="btn-primary">Our Expertise</a>
-                    <a href="#network" class="px-8 py-4 border border-white/10 rounded-xl text-sm font-bold uppercase hover:bg-white/5 transition">Join Research Pool</a>
-                </div>
-            </div>
-
-            <!-- Graphs & Live Ticker -->
-            <div class="space-y-6">
-                <!-- Main Graph Card -->
-                <div class="glass-panel p-6 rounded-[2.5rem] border-white/10">
-                    <div class="flex justify-between items-center mb-6">
-                        <h4 class="font-brand text-[10px] uppercase font-black tracking-widest text-gold">Live Market Volatility Index</h4>
-                        <span class="font-code text-[10px] text-green-400">+12.4% Momentum</span>
-                    </div>
-                    <svg viewBox="0 0 400 150" class="w-full h-40">
-                        <path class="chart-line" d="M0,120 Q50,80 100,100 T200,40 T300,80 T400,20" fill="none" stroke="#ffcc00" stroke-width="3" />
-                        <path d="M0,120 Q50,80 100,100 T200,40 T300,80 T400,20 V150 H0 Z" fill="url(#grad)" opacity="0.1" />
-                        <defs>
-                            <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" style="stop-color:#ffcc00;stop-opacity:1" />
-                                <stop offset="100%" style="stop-color:#ffcc00;stop-opacity:0" />
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                </div>
-
-                <div class="grid grid-cols-2 gap-6">
-                    <div class="glass-panel p-6 rounded-[2rem] border-white/5">
-                        <p class="text-[9px] uppercase font-black text-slate-500 mb-2">Data Sync Speed</p>
-                        <div class="flex items-end gap-2">
-                            <span class="text-3xl font-brand font-black">48</span>
-                            <span class="text-[10px] text-gold pb-1">ms/pkt</span>
-                        </div>
-                        <div class="mt-4 flex gap-1 items-end h-8">
-                            <div class="w-2 bg-gold/20 h-4"></div>
-                            <div class="w-2 bg-gold/40 h-6"></div>
-                            <div class="w-2 bg-gold h-8 animate-pulse"></div>
-                            <div class="w-2 bg-gold/60 h-5"></div>
-                        </div>
-                    </div>
-                    <div class="glass-panel p-6 rounded-[2rem] border-white/5 overflow-hidden">
-                        <p class="text-[9px] uppercase font-black text-slate-500 mb-2">Live Stream</p>
-                        <div class="data-stream font-code text-[8px] text-green-500/70 h-16 overflow-y-auto space-y-1">
-                            <div>> [INIT] Gulu_Unit_82</div>
-                            <div>> [SYNC] Household_A12</div>
-                            <div>> [AUTH] IRB_Pass_09</div>
-                            <div>> [PUSH] Cloud_Region_UG</div>
-                            <div>> [IDLE] Waiting_Buffer</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Operational Grid -->
-    <section id="operational-grid" class="py-24 bg-navy relative">
-        <div class="max-w-[1440px] mx-auto px-6 grid lg:grid-cols-3 gap-12">
-            <div class="lg:col-span-1">
-                <h3 class="font-brand text-4xl font-black mb-6 uppercase">The <span class="text-gold">Intelligence</span> Grid</h3>
-                <p class="text-slate-400 text-sm leading-relaxed mb-8">Monitoring 500+ field enumerators across Uganda in real-time. Our proprietary gateway ensures zero data loss even in low-connectivity regions.</p>
-                <div class="space-y-4">
-                    <div class="flex items-center gap-4">
-                        <div class="w-2 h-2 rounded-full bg-gold"></div>
-                        <span class="text-[10px] uppercase font-bold tracking-widest">Wandegeya HQ: Active</span>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <div class="w-2 h-2 rounded-full bg-green-500"></div>
-                        <span class="text-[10px] uppercase font-bold tracking-widest">Regional Hubs: 14/14 Online</span>
-                    </div>
-                </div>
-            </div>
-            <div class="lg:col-span-2 glass-panel rounded-[3rem] p-4 relative overflow-hidden h-[400px]">
-                <div class="absolute inset-0 bg-[#0a2342] opacity-40"></div>
-                <!-- Mock Map visual with Dots -->
-                <div class="relative w-full h-full bg-navy/20 rounded-[2.5rem] border border-white/5">
-                    <div class="map-dot" style="top: 30%; left: 45%;"></div>
-                    <div class="map-dot" style="top: 60%; left: 55%;"></div>
-                    <div class="map-dot" style="top: 20%; left: 70%;"></div>
-                    <div class="map-dot" style="top: 80%; left: 20%;"></div>
-                    <div class="map-dot" style="top: 45%; left: 30%;"></div>
-                    
-                    <div class="absolute bottom-6 left-6 p-4 glass-panel rounded-xl border-gold/20">
-                        <p class="text-[8px] uppercase font-black text-gold mb-1">Current Focus</p>
-                        <p class="text-xs font-bold">Western Uganda Nutrition Audit</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services -->
-    <section id="services" class="py-32 bg-white text-navy rounded-t-[5rem]">
-        <div class="max-w-[1440px] mx-auto px-6">
-            <h2 class="font-brand text-5xl font-black mb-16 uppercase tracking-tight text-navy">Field <span class="text-gold">Capabilities</span></h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="p-8 bg-slate-50 rounded-[2rem] hover:shadow-2xl transition-all group border border-transparent hover:border-gold">
-                    <h4 class="font-brand font-black text-xl mb-4 uppercase">Bio-Stats</h4>
-                    <p class="text-slate-500 text-xs leading-relaxed">Specialized data entry and cleaning for clinical trials and public health studies.</p>
-                </div>
-                <div class="p-8 bg-slate-50 rounded-[2rem] hover:shadow-2xl transition-all group border border-transparent hover:border-gold">
-                    <h4 class="font-brand font-black text-xl mb-4 uppercase">Census Tech</h4>
-                    <p class="text-slate-500 text-xs leading-relaxed">Deployment of CAPI/OPI tablets for large-scale national census support.</p>
-                </div>
-                <div class="p-8 bg-slate-50 rounded-[2rem] hover:shadow-2xl transition-all group border border-transparent hover:border-gold">
-                    <h4 class="font-brand font-black text-xl mb-4 uppercase">M&E Dashboards</h4>
-                    <p class="text-slate-500 text-xs leading-relaxed">Interactive PowerBI/Tableau visuals for NGO donor reporting.</p>
-                </div>
-                <div class="p-8 bg-slate-50 rounded-[2rem] hover:shadow-2xl transition-all group border border-transparent hover:border-gold">
-                    <h4 class="font-brand font-black text-xl mb-4 uppercase">Scripting</h4>
-                    <p class="text-slate-500 text-xs leading-relaxed">Custom R and Python scripts for automated statistical validation.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-[#010814] pt-24 pb-12 px-6 border-t border-white/5">
-        <div class="max-w-[1440px] mx-auto grid lg:grid-cols-4 gap-16 mb-24">
-            <div class="lg:col-span-2">
-                <div class="flex items-center gap-4 mb-8">
-                    <img src="https://lh3.googleusercontent.com/a/ACg8ocJ0q-5HDm-Ydlk1tsbNDCvdsA4MW7_nhaeOx3xOyukRtTh2QfLlJw=s288-c-no" alt="Logo" class="w-8 h-8 rounded-lg grayscale opacity-50">
-                    <div class="font-brand font-black text-lg uppercase tracking-tighter text-white">StatGate <span class="text-gold">Uganda</span></div>
-                </div>
-                <p class="text-slate-600 max-w-sm mb-8 leading-relaxed text-xs">
-                    Empowering the public and private sectors through rigorous data collection and analytics. Plot 12, Wandegeya, Kampala.
-                </p>
-                <div class="flex gap-4">
-                    <a href="https://wa.me/256787027919" target="_blank" class="text-slate-500 hover:text-gold text-[10px] font-bold">WHATSAPP</a>
-                    <a href="#" class="text-slate-500 hover:text-gold text-[10px] font-bold">LINKEDIN</a>
-                    <a href="#" class="text-slate-500 hover:text-gold text-[10px] font-bold">X-PLATFORM</a>
-                </div>
-            </div>
-            
-            <div>
-                <h5 class="font-black uppercase text-[10px] tracking-widest text-gold mb-6">Protocols</h5>
-                <ul class="space-y-4 text-slate-500 text-[10px] uppercase font-bold">
-                    <li><button onclick="showEthicsCode()" class="hover:text-gold transition text-left">Data Ethics Code</button></li>
-                    <li><button onclick="openModal('Confidentiality', 'All data is encrypted via 256-bit institutional standards.', false)" class="hover:text-gold transition text-left">Privacy Policy</button></li>
-                </ul>
-            </div>
-
-            <div>
-                <h5 class="font-black uppercase text-[10px] tracking-widest text-gold mb-6">Contact</h5>
-                <ul class="space-y-4 text-slate-500 text-[10px] uppercase font-bold">
-                    <li class="text-white">+256 787 027 919</li>
-                    <li>matovujames193@gmail.com</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="text-center text-[9px] font-black uppercase tracking-[0.4em] text-slate-800 border-t border-white/5 pt-12">
-            StatGate Uganda Institutional Analytics &copy; 2024
-        </div>
-    </footer>
+    <main id="content" class="max-w-7xl mx-auto px-6 py-20 space-y-24">
+        <!-- Content injected dynamically -->
+    </main>
 
     <script>
-        function openModal(title, desc, showForm = true) {
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalDesc').innerText = desc;
-            document.getElementById('modalForm').classList.toggle('hidden', !showForm);
-            document.getElementById('modalInfo').classList.add('hidden');
-            document.getElementById('portalModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function showEthicsCode() {
-            const content = `
-                <div class="space-y-6">
-                    <div class="bg-gold/5 p-4 border-l-4 border-gold rounded-r-xl">
-                        <h4 class="font-bold text-white uppercase text-xs mb-2">Institutional Ethics Framework</h4>
-                        <p class="text-xs text-slate-400 leading-relaxed">StatGate Uganda operates under the strict guidelines of the National Council of Science and Technology (UNCST). Our ethical code ensures that every study we conduct prioritizes participant safety and data sovereignty.</p>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="p-4 border border-white/5 rounded-xl">
-                            <h5 class="text-gold font-bold text-[9px] uppercase mb-1">Anonymization</h5>
-                            <p class="text-[9px] text-slate-500">Zero tolerance for PII storage on field devices.</p>
+        const sections = {
+            home: `
+                <header class="space-y-6">
+                    <h2 class="text-5xl md:text-7xl font-extrabold text-white tracking-tighter">Statistician & <br>Database Administrator</h2>
+                    <p class="text-xl text-slate-400 max-w-2xl">BSc Statistics (CGPA 4.24/5.0). Specializing in large-scale health informatics, SQL-based ETL pipelines, and emergency-response field data collection for the Ministry of Health.</p>
+                </header>`,
+            expertise: `
+                <section class="space-y-8">
+                    <h3 class="text-3xl font-bold text-white">Technical Ecosystem</h3>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-slate-900 p-6 rounded-xl border border-slate-800">
+                            <h4 class="text-blue-400 font-bold mb-3">Data Engineering & Analytics</h4>
+                            <ul class="text-sm text-slate-300 space-y-2">
+                                <li>• Expert SQL: Complex joins, window functions, and database schema design</li>
+                                <li>• R: Automated report generation (Tidyverse, Ggplot2)</li>
+                                <li>• Python: Data manipulation with Pandas</li>
+                                <li>• STATA: Statistical modeling</li>
+                            </ul>
                         </div>
-                        <div class="p-4 border border-white/5 rounded-xl">
-                            <h5 class="text-gold font-bold text-[9px] uppercase mb-1">IRB Compliance</h5>
-                            <p class="text-[9px] text-slate-500">Mandatory approval for all human-subject research.</p>
+                        <div class="bg-slate-900 p-6 rounded-xl border border-slate-800">
+                            <h4 class="text-blue-400 font-bold mb-3">Health Informatics & Field Systems</h4>
+                            <ul class="text-sm text-slate-300 space-y-2">
+                                <li>• DHIS2 Administration: Aggregate and Event data architectures</li>
+                                <li>• REDCap: Advanced project setup, branching logic, and quality rules</li>
+                                <li>• Field Tools: ODK, Kobo Toolbox (Offline-first survey design)</li>
+                            </ul>
                         </div>
                     </div>
-                </div>
-            `;
-            document.getElementById('modalTitle').innerText = "Data Ethics Code";
-            document.getElementById('modalDesc').innerText = "Our commitment to legal and moral research standards in Uganda.";
-            document.getElementById('modalForm').classList.add('hidden');
-            const infoBox = document.getElementById('modalInfo');
-            infoBox.innerHTML = content;
-            infoBox.classList.remove('hidden');
-            document.getElementById('portalModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
+                </section>`,
+            initiatives: `
+                <section class="space-y-8">
+                    <h3 class="text-3xl font-bold text-white">Impactful Field Work</h3>
+                    <div class="space-y-6">
+                        <div class="bg-slate-900 p-8 rounded-xl border border-l-4 border-blue-600">
+                            <h4 class="text-xl font-bold text-white">Ministry of Health Backlog Resolution</h4>
+                            <p class="text-slate-400 mt-2">Systematically cleaned 3,500+ records and optimized longitudinal data pipelines across 136 districts, reducing manual workload by 40%.</p>
+                        </div>
+                        <div class="bg-slate-900 p-8 rounded-xl border border-l-4 border-blue-600">
+                            <h4 class="text-xl font-bold text-white">Mpox Outbreak Response (Africa CDC)</h4>
+                            <p class="text-slate-400 mt-2">Led field-level deployment for socio-ecological research in high-risk border districts, managing ODK architecture for rapid transmission mapping.</p>
+                        </div>
+                    </div>
+                </section>`,
+            codesamples: `
+                <section class="space-y-8">
+                    <h3 class="text-3xl font-bold text-white">Representative Code</h3>
+                    <div class="bg-slate-900 p-6 rounded-xl font-mono text-xs text-blue-300 border border-slate-800">
+                        <p class="text-slate-500 mb-2">// SQL: Automated validation rule to flag incomplete surveillance records</p>
+                        SELECT facility_id, reporting_week, COUNT(*) as total_records, SUM(CASE WHEN clinical_score IS NULL THEN 1 ELSE 0 END) as incomplete_count FROM surveillance_data GROUP BY facility_id, reporting_week HAVING incomplete_count > 0;
+                    </div>
+                </section>`,
+            certifications: `
+                <section class="space-y-8">
+                    <h3 class="text-3xl font-bold text-white">Verified Credentials</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-slate-900 p-6 rounded-xl border border-slate-800">
+                            <h4 class="font-bold text-white">NIH Good Clinical Practice (GCP)</h4>
+                            <p class="text-slate-400 text-xs mt-1">NIDA Clinical Trials Network. Expires: 25 August 2028.</p>
+                        </div>
+                        <div class="bg-slate-900 p-6 rounded-xl border border-slate-800">
+                            <h4 class="font-bold text-white">DHIS2 Academy Expert (University of Oslo)</h4>
+                            <p class="text-slate-400 text-xs mt-1">Certifications: Aggregate Data Capture (GEN-D002), Analysis (GEN-D003), and Event Data Capture (GEN-D006).</p>
+                        </div>
+                        <div class="bg-slate-900 p-6 rounded-xl border border-slate-800">
+                            <h4 class="font-bold text-white">Ethics & Code of Conduct</h4>
+                            <p class="text-slate-400 text-xs mt-1">African Union (AU Learn). Issued: 23 September 2025.</p>
+                        </div>
+                    </div>
+                </section>`
+        };
 
-        function closeModal() {
-            document.getElementById('portalModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
+        function showSection(id) {
+            document.getElementById('content').innerHTML = sections[id];
+            document.querySelectorAll('#nav-menu button').forEach(btn => {
+                btn.classList.toggle('text-blue-400', btn.innerText.toLowerCase().replace(' & data', '') === id);
+            });
         }
-
-        window.onclick = function(event) {
-            if (event.target.id == 'portalModal') closeModal();
-        }
-
-        // Automatic Data Stream Simulation
-        const dataStream = document.querySelector('.data-stream');
-        const units = ['Kampala', 'Gulu', 'Mbarara', 'Jinja', 'Arua', 'Mbale'];
-        setInterval(() => {
-            const unit = units[Math.floor(Math.random() * units.length)];
-            const div = document.createElement('div');
-            div.textContent = `> [SYNC] ${unit}_Node_${Math.floor(Math.random()*100)}: OK`;
-            dataStream.prepend(div);
-            if (dataStream.children.length > 8) dataStream.lastChild.remove();
-        }, 3000);
+        showSection('home');
     </script>
-
 </body>
 </html>
