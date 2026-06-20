@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://matjames.github.io/Statgate-Uganda/sitemap.xml
