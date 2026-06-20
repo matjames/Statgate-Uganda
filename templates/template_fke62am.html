@@ -41,8 +41,8 @@
       emailjs.init('MjOlLXU55Z79UKJfu');
     }
 
-    // Replace 'YOUR_SERVICE_ID' with your EmailJS service ID (e.g. 'service_xxx').
-    const SERVICE_ID = 'YOUR_SERVICE_ID';
+    // EmailJS service and template configuration
+    const SERVICE_ID = 'service_55slm7x';
     const TEMPLATE_ID = 'template_fke62am';
 
     const form = document.getElementById('contactForm');
@@ -62,7 +62,7 @@
         to_email: 'statgateUganda@gmail.com'
       };
 
-      if (SERVICE_ID === 'YOUR_SERVICE_ID') {
+      if (!SERVICE_ID || SERVICE_ID === 'YOUR_SERVICE_ID') {
         // Fallback: open mail client if EmailJS service not configured
         status.textContent = 'EmailJS service not configured — opening mail client as fallback.';
         const mailto = `mailto:statgateUganda@gmail.com?subject=${encodeURIComponent('Website Inquiry')}&body=${encodeURIComponent(templateParams.message)}`;
