@@ -1,3 +1,17 @@
 User-agent: *
 Allow: /
+Disallow: 
 Sitemap: https://matjames.github.io/Statgate-Uganda/sitemap.xml
+
+# Google Bot
+User-agent: Googlebot
+Allow: /
+
+# Bing Bot
+User-agent: Bingbot
+Allow: /
+
+# Other bots
+User-agent: *
+Allow: /
+Crawl-delay: 1
