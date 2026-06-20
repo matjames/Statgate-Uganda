@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Template 9t4tfsb — Statgate Uganda</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
+  <style>body{font-family:'Inter',sans-serif;background:#020617;color:#fff;padding:3rem}</style>
+</head>
+<body>
+  <main class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-4">Template 9t4tfsb</h1>
+    <p class="mb-4">A lightweight project template — contact via email or the quick form below.</p>
+
+    <section class="bg-slate-900 p-6 rounded-lg">
+      <h2 class="text-xl font-semibold mb-2">Project Snapshot</h2>
+      <p class="text-slate-400 mb-4">Use this page to showcase a project, include screenshots, or provide a client-facing template.</p>
+
+      <form id="contactForm" class="space-y-4">
+        <input class="form-input w-full" type="text" name="from_name" placeholder="Your name" required />
+        <input class="form-input w-full" type="email" name="reply_to" placeholder="Your email" required />
+        <textarea class="form-textarea w-full" name="message" rows="5" placeholder="Message" required></textarea>
+        <div class="flex gap-3">
+          <button id="sendBtn" class="px-4 py-2 bg-emerald-500 text-black rounded-lg font-semibold">Send</button>
+          <a href="mailto:statgateUganda@gmail.com?subject=Project%20Inquiry" class="px-4 py-2 border border-slate-700 rounded-lg">Email client</a>
+        </div>
+      </form>
+
+      <p id="status" class="mt-4 text-sm text-slate-400"></p>
+    </section>
+
+    <p class="mt-8 text-sm text-slate-400">Back to <a href="/matjames/Statgate-Uganda" class="underline">portfolio</a></p>
+  </main>
+
+  <script>
+    // Initialize EmailJS
+    if (window.emailjs) {
+      emailjs.init('MjOlLXU55Z79UKJfu');
+    }
+
+    const SERVICE_ID = 'service_55slm7x';
+    const TEMPLATE_ID = 'template_9t4tfsb';
+
+    const form = document.getElementById('contactForm');
+    const status = document.getElementById('status');
+    const sendBtn = document.getElementById('sendBtn');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      sendBtn.classList.add('btn-loading');
+      sendBtn.disabled = true;
+
+      const formData = new FormData(form);
+      const templateParams = {
+        from_name: formData.get('from_name'),
+        reply_to: formData.get('reply_to'),
+        message: formData.get('message'),
+        to_email: 'statgateUganda@gmail.com'
+      };
+
+      if (!SERVICE_ID || SERVICE_ID === 'YOUR_SERVICE_ID') {
+        status.textContent = 'EmailJS service not configured — opening mail client as fallback.';
+        const mailto = `mailto:statgateUganda@gmail.com?subject=${encodeURIComponent('Website Inquiry')}&body=${encodeURIComponent(templateParams.message)}`;
+        window.location.href = mailto;
+        sendBtn.classList.remove('btn-loading');
+        sendBtn.disabled = false;
+        return;
+      }
+
+      emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
+        .then(function () {
+          status.textContent = 'Message sent — thank you!';
+          form.reset();
+        }, function (err) {
+          console.error('EmailJS error:', err);
+          status.textContent = 'Failed to send message — please try again or email statgateUganda@gmail.com';
+        })
+        .finally(() => {
+          sendBtn.classList.remove('btn-loading');
+          sendBtn.disabled = false;
+        });
+    });
+  </script>
+</body>
+</html>
